@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <Header></Header>
+    <Header :show="drawer" @click-icon-menu="clickIconMenu" ></Header>
     <MainMenu :drawer="drawer"></MainMenu>
     <v-content>
       <router-view></router-view>
@@ -25,10 +25,15 @@ export default {
     MainMenu
   },
   data: () => ({
-    drawer: null
+    drawer: true
   }),
   created() {
     this.$vuetify.theme.dark = true;
+  },
+  methods: {
+    clickIconMenu:function(show) {
+      this.drawer = show;
+    }
   }
 };
 </script>
