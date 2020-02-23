@@ -1,7 +1,20 @@
 [
     {
-        "isGroup": false,
+        "isGroup": true,
+        "id": "BLL0001000",
         "icon": "mdi-label",
-        "title": "Câu hỏi"
+        "title": "Cài đật chung",
+        "children": [
+            {
+                "id": "BLL0001001",
+                "icon": "mdi-label",
+                "title": "Môn Học"
+            },
+            {
+                "id": "BLL0001001",
+                "icon": "mdi-label",
+                "title": "Loại câu hỏi"
+            }
+        ]
     }
 ]
