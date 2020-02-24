@@ -1,4 +1,7 @@
 {
   "title": "Tạo đề thi",
-  "login": "Đăng nhập"
+  "login": "Đăng nhập",
+  "username": "Tên đăng nhập",
+  "password": "Mật khẩu",
+  "register": "Đăng ký"
 }

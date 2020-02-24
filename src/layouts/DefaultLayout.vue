@@ -28,7 +28,7 @@ export default {
     drawer: true
   }),
   created() {
-    this.$vuetify.theme.dark = true;
+    
   },
   methods: {
     clickIconMenu:function(show) {

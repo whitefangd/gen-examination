@@ -5,12 +5,14 @@ import App from './App'
 import router from './router'
 import vuetify from '@/plugins/vuetify' // path to vuetify export
 import i18n from '@/plugins/i18n' // path to vuetify export
+import store from "@/store";
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   vuetify,
   i18n,
   router,

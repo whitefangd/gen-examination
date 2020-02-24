@@ -11,6 +11,8 @@ export default {
       drawer: null
     };
   },
-  created() {}
+  created() {
+    this.$vuetify.theme.dark = true;
+  }
 };
 </script>
