@@ -3,6 +3,8 @@ import { firebaseAuth } from "@/firebase";
 
 const getters = {
   firebase: firebase,
-  firebaseAuth: firebaseAuth
+  firebaseAuth: firebaseAuth,
+  googleToken: "",
+  alertMessage: []
 };
 export default getters;

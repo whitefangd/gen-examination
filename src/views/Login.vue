@@ -10,6 +10,7 @@
                 <v-spacer />
               </v-toolbar>
               <v-card-text>
+                <Alert></Alert>
                 <v-form>
                   <v-text-field
                     :label="$t('username')"
