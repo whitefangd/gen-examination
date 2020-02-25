@@ -3,7 +3,7 @@ declare module '*.vue' {
   export default Vue
 }
 
-declare module "raw-loader!*" {
+declare module "!!raw-loader!*" {
   const content: string;
   export default content;
 }

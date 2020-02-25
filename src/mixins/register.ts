@@ -13,7 +13,14 @@ import {
 
 @Component
 export default class RegisterMixin extends Vue {
+
+  private username:string
+  private password:string
+  private repassword:string
   constructor() {
     super()
+    this.username = "";
+    this.password = "";
+    this.repassword = "";
   }
 }

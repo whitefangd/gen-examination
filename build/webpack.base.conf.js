@@ -4,7 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -57,7 +57,14 @@ module.exports = {
       },
       {
         test: /LICENSE$/i,
-        use: 'raw-loader',
+        use: [
+          {
+            loader: 'raw-loader',
+            options: {
+              esModule: false,
+            },
+          },
+        ],
       },
       {
         test: /\.tsx?$/,
@@ -105,7 +112,7 @@ module.exports = {
     loaders: [
       { test: /\.json$/, loader: 'json' },
       // other loaders 
-   ]
+    ]
   },
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
