@@ -1,12 +1,12 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import DefaultLayout from '@/layouts/DefaultLayout'
-import Home from '@/views/Home'
-import Login from '@/views/Login'
+import VueRouter from 'vue-router'
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import Home from '@/views/Home.vue'
+import Login from '@/views/Login.vue'
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-export default new Router({
+export default new VueRouter({
   routes: [
     {
       path: '/',

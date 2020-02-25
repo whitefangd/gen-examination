@@ -50,12 +50,12 @@
   </v-app>
 </template>
 
-<script>
-import login from "@/mixins/login";
+<script lang="ts">
+import Component, { mixins } from 'vue-class-component'
+import LoginMixin from "@/mixins/login";
 
-export default {
-  name: "Login",
-  mixins: [login],
+@Component
+export default class Login extends mixins(LoginMixin) {
   data() {
     return {
       msg: "Welcome to Your Vue.js App"

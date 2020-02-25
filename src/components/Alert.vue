@@ -30,24 +30,29 @@
     >{{$t(item.message)}}</v-alert>
   </div>
 </template>
-
-<script>
+<script lang="ts">
 import { mapGetters } from "vuex";
+import Vue from "vue";
+import Component from "vue-class-component";
+import { State, Getter, Action, Mutation, namespace } from "vuex-class";
 
-export default {
-  name: "Alert",
-  computed: {
-    info: self => self.alertMessage().filter(alert => alert.type == "INFO"),
-    success: self =>
-      self.alertMessage().filter(alert => alert.type == "SUCCESS"),
-    warning: self =>
-      self.alertMessage().filter(alert => alert.type == "WARNING"),
-    error: self => self.alertMessage().filter(alert => alert.type == "ERROR")
-  },
-  methods: {
-    ...mapGetters(["alertMessage"])
+@Component
+export default class Alert extends Vue {
+  @Getter("alertMessage") alertMessage!: Array<any>;
+
+  get info() {
+    return this.alertMessage.filter(alert => alert.type == "INFO");
   }
-};
+  get success() {
+    return this.alertMessage.filter(alert => alert.type == "SUCCESS");
+  }
+  get warning() {
+    return this.alertMessage.filter(alert => alert.type == "WARNING");
+  }
+  get error() {
+    return this.alertMessage.filter(alert => alert.type == "ERROR");
+  }
+}
 </script>
 
 <style>

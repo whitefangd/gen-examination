@@ -11,12 +11,18 @@
   },
   "dependencies": {
     "firebase": "^7.9.1",
+    "module-alias": "^2.2.2",
+    "ts-loader": "^3.5.0",
+    "ts-vue-plugin": "^0.1.2",
     "vue": "^2.5.2",
+    "vue-class-component": "^7.2.3",
     "vue-i18n": "^8.15.3",
+    "vue-property-decorator": "^8.4.0",
     "vue-router": "^3.0.1",
     "vue-sessionstorage": "^1.0.0",
     "vuetify": "^2.2.14",
-    "vuex": "^3.1.2"
+    "vuex": "^3.1.2",
+    "vuex-class": "^0.3.2"
   },
   "devDependencies": {
     "@mdi/font": "^4.9.95",
@@ -53,6 +59,7 @@
     "sass-loader": "^8.0.2",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
+    "typescript": "^3.8.2",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",
@@ -61,6 +68,7 @@
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
+    "webpack-env": "^0.8.0",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
@@ -71,5 +79,8 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "_moduleAliases": {
+    "@": "dist"
+  }
 }
