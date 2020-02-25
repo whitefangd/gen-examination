@@ -6,7 +6,7 @@
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
               <v-toolbar flat>
-                <v-toolbar-title>{{$t('login-title')}}</v-toolbar-title>
+                <v-toolbar-title>{{$t('register-title')}}</v-toolbar-title>
                 <v-spacer />
               </v-toolbar>
               <v-card-text>
@@ -26,19 +26,32 @@
                     prepend-icon="mdi-lock"
                     type="password"
                   />
+                  <v-text-field
+                    :label="$t('re-password')"
+                    v-model="password"
+                    name="re-password"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                  />
                 </v-form>
+                <v-card height="300px" style="{overflow-y: auto }">
+                  <v-card-title>{{$t('license')}}</v-card-title>
+                  <v-card-text>
+                    <pre>{{LICENSE}}</pre>
+                  </v-card-text>
+                </v-card>
               </v-card-text>
               <v-card-actions>
-                <v-btn :to="{path: '/register'}">
-                  {{$t('register')}}
-                  <v-icon right>mdi-account-edit</v-icon>
-                </v-btn>
-                <v-spacer />
-                <v-btn @click="loginByAccount">
+                <v-btn>
                   {{$t('login')}}
                   <v-icon right>mdi-login</v-icon>
                 </v-btn>
-                <v-btn @click="loginByGoogle">
+                <v-spacer />
+                <v-btn @click="loginByAccount">
+                  {{$t('register')}}
+                  <v-icon right>mdi-account-edit</v-icon>
+                </v-btn>
+                <v-btn>
                   <v-icon>mdi-google</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -52,18 +65,19 @@
 
 <script lang="ts">
 import Component, { mixins } from "vue-class-component";
-import LoginMixin from "@/mixins/login";
+import RegisterMixin from "@/mixins/register";
+import LICENSE from  "raw-loader!@/LICENSE";
+
 
 @Component
-export default class Login extends mixins(LoginMixin) {
+export default class Register extends mixins(RegisterMixin) {
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
+      LICENSE: LICENSE
     };
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 </style>
