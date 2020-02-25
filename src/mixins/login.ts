@@ -17,13 +17,13 @@ export default class LoginMixin extends Vue {
   @Action('googleToken') googleToken!: (token: string) => void
   @Action('pushError') pushError!: (detail: any) => void
 
-  private username: String
-  private password: String
+  protected _login_username!: string
+  protected _login_password!: string
 
   constructor() {
     super()
-    this.username = "";
-    this.password = "";
+    this._login_username = "";
+    this._login_password = "";
   }
 
   data() {
@@ -48,11 +48,13 @@ export default class LoginMixin extends Vue {
     const self = this;
     const PROVIDER_ID = firebase.auth.EmailAuthProvider.PROVIDER_ID;
     Vue.prototype.$session.set(CONSTANT.KEY_PROVIDER_ID, PROVIDER_ID);
-    self.firebaseAuth.signInWithEmailAndPassword(self.username, self.password)
+    self.firebaseAuth.signInWithEmailAndPassword(self._login_username, self._login_password)
       .then(function (user: any) {
         Vue.prototype.$session.remove('PROVIDER_ID');
         if (!user) {
           self.pushError({ message: "ERR000000001" });
+        } else {
+          self.$router.push({ path: '/' });
         }
       })
       .catch(function (error: any) {
@@ -83,6 +85,8 @@ export default class LoginMixin extends Vue {
       var user = result.user;
       if (!user) {
         self.pushError({ message: "ERR000000001" });
+      } else {
+        self.$router.push({ path: '/' });
       }
     }).catch(function (error: any) {
       // Handle Errors here.

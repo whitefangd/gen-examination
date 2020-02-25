@@ -3,7 +3,7 @@
     <v-content>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="6">
+          <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
               <v-toolbar flat>
                 <v-toolbar-title>{{$t('register-title')}}</v-toolbar-title>
@@ -34,13 +34,7 @@
                     type="password"
                   />
                 </v-form>
-                <v-alert
-                  dense
-                  elevation="10"
-                  type="success"
-                  style="max-height: 300px"
-                  class="overflow-y-auto"
-                >
+                <v-alert dense elevation="10" style="max-height: 300px" class="overflow-y-auto">
                   <v-container>
                     <v-row>
                       <v-col>
@@ -56,16 +50,16 @@
                 </v-alert>
               </v-card-text>
               <v-card-actions>
-                <v-btn>
+                <v-btn :to="{path: '/login'}">
                   {{$t('login')}}
                   <v-icon right>mdi-login</v-icon>
                 </v-btn>
                 <v-spacer />
-                <v-btn>
+                <v-btn @click="register">
                   {{$t('register')}}
                   <v-icon right>mdi-account-edit</v-icon>
                 </v-btn>
-                <v-btn>
+                <v-btn @click="loginByGoogle">
                   <v-icon>mdi-google</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -74,6 +68,9 @@
         </v-row>
       </v-container>
     </v-content>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -85,10 +82,41 @@ import LICENSE from "!!raw-loader!@/LICENSE";
 
 @Component
 export default class Register extends mixins(LoginMixin, RegisterMixin) {
+  private overlay: boolean;
+
+  constructor() {
+    super();
+    this.overlay = true;
+  }
+
   data() {
     return {
       LICENSE: LICENSE
     };
+  }
+
+  get username(): string {
+    return this._register_username;
+  }
+
+  set username(value: string) {
+    this._register_username = value;
+  }
+
+  get password(): string {
+    return this._register_password;
+  }
+
+  set password(value: string) {
+    this._register_password = value;
+  }
+
+  get repassword(): string {
+    return this._register_repassword;
+  }
+
+  set repassword(value: string) {
+    this._register_repassword = value;
   }
 }
 </script>

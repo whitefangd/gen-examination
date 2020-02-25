@@ -47,6 +47,9 @@
         </v-row>
       </v-container>
     </v-content>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -56,10 +59,32 @@ import LoginMixin from "@/mixins/login";
 
 @Component
 export default class Login extends mixins(LoginMixin) {
+  private overlay: boolean;
+
+  constructor() {
+    super();
+    this.overlay = true;
+  }
+
   data() {
     return {
       msg: "Welcome to Your Vue.js App"
     };
+  }
+  get username(): string {
+    return this._login_username;
+  }
+
+  set username(value: string) {
+    this._login_username = value;
+  }
+
+  get password(): string {
+    return this._login_password;
+  }
+
+  set password(value: string) {
+    this._login_password = value;
   }
 }
 </script>

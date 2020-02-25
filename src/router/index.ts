@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import Home from '@/views/Home.vue'
-import Login from '@/views/Login.vue'
-import Register from '@/views/Register.vue'
+const  DefaultLayout = () => import('@/layouts/DefaultLayout.vue')
+const  Home = () => import('@/views/Home.vue')
+const  Login = () => import('@/views/Login.vue')
+const  Register = () => import('@/views/Register.vue')
 
 Vue.use(VueRouter)
 
