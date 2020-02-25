@@ -68,9 +68,6 @@
         </v-row>
       </v-container>
     </v-content>
-    <v-overlay :value="overlay">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
   </v-app>
 </template>
 
@@ -79,16 +76,14 @@ import Component, { mixins } from "vue-class-component";
 import RegisterMixin from "@/mixins/register";
 import LoginMixin from "@/mixins/login";
 import LICENSE from "!!raw-loader!@/LICENSE";
+import AuthenticationMixin from "@/mixins/authentication";
 
 @Component
-export default class Register extends mixins(LoginMixin, RegisterMixin) {
-  private overlay: boolean;
-
-  constructor() {
-    super();
-    this.overlay = true;
-  }
-
+export default class Register extends mixins(
+  LoginMixin,
+  RegisterMixin,
+  AuthenticationMixin
+) {
   data() {
     return {
       LICENSE: LICENSE

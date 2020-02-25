@@ -25,6 +25,14 @@ export default class RegisterMixin extends Vue {
     this._register_repassword = "";
   }
 
+  created() {
+    const self = this;
+    const currentUser = self.firebaseAuth.currentUser;
+    if (currentUser) {
+      self.$router.push({ path: '/' });
+    }
+  }
+
   register() {
     const self = this;
     self.firebaseAuth.createUserWithEmailAndPassword(self._register_username, self._register_password)

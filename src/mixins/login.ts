@@ -41,6 +41,8 @@ export default class LoginMixin extends Vue {
         default:
           break;
       }
+    } else {
+      self.$router.push({ path: '/' });
     }
   }
 

@@ -47,23 +47,20 @@
         </v-row>
       </v-container>
     </v-content>
-    <v-overlay :value="overlay">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
   </v-app>
 </template>
 
 <script lang="ts">
 import Component, { mixins } from "vue-class-component";
 import LoginMixin from "@/mixins/login";
+import AuthenticationMixin from "@/mixins/authentication";
+
 
 @Component
-export default class Login extends mixins(LoginMixin) {
-  private overlay: boolean;
-
+export default class Login extends mixins(LoginMixin, AuthenticationMixin) {
+  
   constructor() {
     super();
-    this.overlay = true;
   }
 
   data() {

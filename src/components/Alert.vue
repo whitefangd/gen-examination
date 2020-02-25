@@ -31,7 +31,6 @@
   </div>
 </template>
 <script lang="ts">
-import { mapGetters } from "vuex";
 import Vue from "vue";
 import Component from "vue-class-component";
 import { State, Getter, Action, Mutation, namespace } from "vuex-class";
