@@ -13,7 +13,11 @@ import {
 
 @Component
 export default class AuthenticationMixin extends Vue {
-    beforeCreate() {
-        
-    }
+  beforeCreate() {
+    const self = this;
+    const access = firebase.functions().httpsCallable("authentication.access");
+    access({ path: this.$route.path }).catch(function (error) { 
+      self.$router.push({ path: '/error/' + error.status });
+    });
+  }
 }

@@ -7,10 +7,15 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
-    "allowJs": true
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src",
+    "src/**/*.ts",
   ]
 }

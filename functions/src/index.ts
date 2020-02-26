@@ -1,8 +1,13 @@
 import * as functions from 'firebase-functions';
+import * as admin from "firebase-admin";
+import { namespace } from 'firebase-functions/lib/providers/firestore';
+// import * as authentication from '@/authentication'
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+    databaseURL: 'https://gen-exemination.firebaseio.com'
+});
+
+export declare namespace Authentication {
+    function access(path: string, acction: string): void
+}
