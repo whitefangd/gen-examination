@@ -3,11 +3,14 @@ enum ROLE {
 }
 
 enum ACTION {
+    FULL_CONTROL = "FULL_CONTROL",
     ACCESS = "ACCESS",
     READ = "READ",
     CREATE = "CREATE",
     MODIFY = "MODIFY",
-    DELETE = "DELETE"
+    DELETE = "DELETE",
+    EXECUTE = "EXECUTE",
+    SPECIAL_PERMISSION = "SPECIAL_PERMISSION"
 }
 
 const Constant = {
