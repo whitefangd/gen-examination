@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
 import admin = require("firebase-admin");
 import Constant from "./../common/constant";
-import { Paths, Pojo, Actions } from "./../types";
+import { Pojo, Actions } from "./../types";
 
 const db = admin.firestore();
 
@@ -18,8 +18,6 @@ const Authentication = {
       throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000001");
     } if (!data.action) {
       throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000002");
-    } else {
-      path = data.path.replace(/[\/\\]/g, "-").toLowerCase();
     }
 
     let uid = "999999999"
@@ -27,27 +25,32 @@ const Authentication = {
       uid = context.auth.uid;
     }
 
-    const paths = await db.collection("paths").where("path", "==", path).get();
+    console.log(data.path);
+    const paths = await db.collection("paths").where("path", "==", data.path).get();
     const user = await db.doc("users/" + uid).get();
     if (paths.docs && paths.docs.length && paths.docs.length === 1) {
       let pathData: any = paths.docs[0].data();
       let pathPojo: Pojo.Paths = pathData;
 
-      let flagAuthUser = getAuhenticationPathUser(pathPojo, uid, data);
-      let flagAuthRole = await getAuhenticationRole(pathPojo, user.data(), data);
-      let flagAuthGroup = getAuhenticationGroup(pathPojo);
+      if(!user || !user.data()) {
+          throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
+      }
 
-      if (flagAuthUser === -1) {
+      let flagAuthUser = await getAuhenticationPathUser(pathPojo, uid, data);
+      let flagAuthRole = await getAuhenticationRole(pathPojo, user.data(), data);
+      let flagAuthGroup = await getAuhenticationGroup(pathPojo, uid, data);
+
+      if (flagAuthUser === AUTHEN_RESULT.DENY) {
         throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
-      } if (flagAuthUser === 1) {
+      } if (flagAuthUser === AUTHEN_RESULT.ALLOW) {
         return;
-      } else if (flagAuthGroup == -1) {
+      } else if (flagAuthGroup == AUTHEN_RESULT.DENY) {
         throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
-      } else if (flagAuthGroup == 1) {
+      } else if (flagAuthGroup == AUTHEN_RESULT.ALLOW) {
         return;
-      } else if (flagAuthRole == -1) {
+      } else if (flagAuthRole == AUTHEN_RESULT.DENY) {
         throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
-      } else if (flagAuthRole == 1) {
+      } else if (flagAuthRole == AUTHEN_RESULT.ALLOW) {
         return;
       } else {
         throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
@@ -118,12 +121,54 @@ async function getAuhenticationRole(pathInfo: Pojo.Paths, user: any, data: Acces
   }
   return AUTHEN_RESULT.UN_KNOWN
 }
-async function getAuhenticationGroup(pathInfo: Pojo.Paths, uid: string): Promise<AUTHEN_RESULT> {
+
+function getFlagAuthenGroup(action: string, groups: FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData>) {
+  let deny: any = null;
+  let allow: any = null;
+  deny = groups.docs.find(group => !group.get("full_control") && !group.get(action));
+  allow = groups.docs.find(group => group.get("full_control") || group.get(action));
+  if (deny) {
+    return AUTHEN_RESULT.DENY;
+  } else if (allow) {
+    return AUTHEN_RESULT.ALLOW;
+  } else {
+    return AUTHEN_RESULT.UN_KNOWN;
+  }
+}
+
+async function getAuhenticationGroup(pathInfo: Pojo.Paths, uid: string, data: AccessData): Promise<AUTHEN_RESULT> {
+  if(!pathInfo.groups || !pathInfo.groups.length || pathInfo.groups.length === 0) {
+    return AUTHEN_RESULT.UN_KNOWN;
+  }
   const groups = await db.collection("groups")
     .where("id", "in", pathInfo.groups)
     .where("users", "in", uid).get();
-  groups.docs.
-  return AUTHEN_RESULT.UN_KNOWN
+
+  if (!groups || groups.size || groups.size === 0) {
+    return AUTHEN_RESULT.UN_KNOWN;
+  }
+
+  let action = data.action;
+  switch (action) {
+    case Constant.ACTION.FULL_CONTROL:
+      return getFlagAuthenGroup("full_control", groups);
+    case Constant.ACTION.ACCESS:
+      return getFlagAuthenGroup("access", groups);
+    case Constant.ACTION.CREATE:
+      return getFlagAuthenGroup("create", groups);
+    case Constant.ACTION.DELETE:
+      return getFlagAuthenGroup("delete", groups);
+    case Constant.ACTION.EXECUTE:
+      return getFlagAuthenGroup("execute", groups);
+    case Constant.ACTION.MODIFY:
+      return getFlagAuthenGroup("modify", groups);
+    case Constant.ACTION.READ:
+      return getFlagAuthenGroup("read", groups);
+    case Constant.ACTION.SPECIAL_PERMISSION:
+      return getFlagAuthenGroup("special_permission", groups);
+    default:
+      return AUTHEN_RESULT.UN_KNOWN;
+  }
 }
 export {
   Authentication
