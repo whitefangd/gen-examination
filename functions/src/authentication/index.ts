@@ -1,7 +1,9 @@
 import * as functions from "firebase-functions";
 import admin = require("firebase-admin");
+
 import Constant from "./../common/constant";
 import { Pojo, Actions } from "./../types";
+import LOGGER from "./../logger";
 
 const db = admin.firestore();
 
@@ -13,10 +15,11 @@ declare class AccessData {
 const Authentication = {
   access: functions.https.onCall(async (data: AccessData, context) => {
 
-    let path = "-";
     if (!data.path) {
+      LOGGER.error("Authentication-access", "No have path from client", data);
       throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000001");
     } if (!data.action) {
+      LOGGER.error("Authentication-access", "No have action from client", data);
       throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000002");
     }
 
@@ -25,56 +28,65 @@ const Authentication = {
       uid = context.auth.uid;
     }
 
-    console.log(data.path);
     const paths = await db.collection("paths").where("path", "==", data.path).get();
     const user = await db.doc("users/" + uid).get();
     if (paths.docs && paths.docs.length && paths.docs.length === 1) {
       let pathData: any = paths.docs[0].data();
       let pathPojo: Pojo.Paths = pathData;
-
-      if(!user || !user.data()) {
-          throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
+      if (!user || !user.data()) {
+        LOGGER.error("Authentication-access", "User is't found in database", data);
+        throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
       }
 
       let flagAuthUser = await getAuhenticationPathUser(pathPojo, uid, data);
       let flagAuthRole = await getAuhenticationRole(pathPojo, user.data(), data);
       let flagAuthGroup = await getAuhenticationGroup(pathPojo, uid, data);
 
+      console.log(JSON.stringify({User: flagAuthUser, Role: flagAuthRole, Group: flagAuthGroup}, null, 4));
+
       if (flagAuthUser === AUTHEN_RESULT.DENY) {
+        LOGGER.error("Authentication-access", "User is't permission", { type: "paths", uid: user.id, user: user.data(), data_client: data });
         throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
       } if (flagAuthUser === AUTHEN_RESULT.ALLOW) {
         return;
       } else if (flagAuthGroup == AUTHEN_RESULT.DENY) {
+        LOGGER.error("Authentication-access", "User is't permission", { type: "groups", uid: user.id, user: user.data(), data_client: data });
         throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
       } else if (flagAuthGroup == AUTHEN_RESULT.ALLOW) {
         return;
       } else if (flagAuthRole == AUTHEN_RESULT.DENY) {
+        LOGGER.error("Authentication-access", "User is't permission", { type: "roles", uid: user.id, user: user.data(), data_client: data });
         throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
       } else if (flagAuthRole == AUTHEN_RESULT.ALLOW) {
         return;
       } else {
+        LOGGER.error("Authentication-access", "User is't permission", { type: "Unknown", uid: user.id, user: user.data(), data_client: data });
         throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000004");
       }
     } else {
+      LOGGER.error("Authentication-access", "Path is't found in database", data);
       throw new functions.https.HttpsError('unauthenticated', "FUNCERR000000003");
     }
   })
 }
 
 enum AUTHEN_RESULT {
-  ALLOW,
-  DENY,
-  UN_KNOWN
+  ALLOW = "ALLOW",
+  DENY = "DENY",
+  UN_KNOWN = "UN_KNOWN"
 }
 
-function AuthenticationCheckAction(actions: Actions, action: string) {
+async function AuthenticationCheckAction(actions: Actions, action: string) {
   let flagAuth = false;
   switch (action) {
     case Constant.ACTION.FULL_CONTROL:
       flagAuth = actions.full_control;
       break;
     case Constant.ACTION.ACCESS:
+      console.log({"actions.access": actions.access});
+      console.log({"actions.full_control": actions.full_control});
       flagAuth = actions.access || actions.full_control;
+      console.log({"actions.access || actions.full_control": flagAuth});
       break;
     case Constant.ACTION.CREATE:
       flagAuth = actions.create || actions.full_control;
@@ -107,7 +119,7 @@ function AuthenticationCheckAction(actions: Actions, action: string) {
 async function getAuhenticationPathUser(pathInfo: Pojo.Paths, uid: string, data: AccessData): Promise<AUTHEN_RESULT> {
   let userPaths = pathInfo.users.filter(user => user.uid == uid);
   if (userPaths && userPaths.length && userPaths.length >= 1) {
-    return AuthenticationCheckAction(userPaths[0].actions, data.action);
+    return await AuthenticationCheckAction(userPaths[0].actions, data.action);
   }
   return AUTHEN_RESULT.UN_KNOWN
 }
@@ -115,9 +127,10 @@ async function getAuhenticationRole(pathInfo: Pojo.Paths, user: any, data: Acces
   const roles = pathInfo.roles.filter(role => role === user.role);
   if (roles && roles.length && roles.length >= 1) {
     let role = await db.doc("roles/" + roles[0]).get();
-    let roleData: any = role.data();
+    let roleData: any = await role.data();
     let rolePojo: Actions = roleData;
-    return AuthenticationCheckAction(rolePojo, data.action);
+    console.log(JSON.stringify(rolePojo, null, 4));
+    return await AuthenticationCheckAction(rolePojo, data.action);
   }
   return AUTHEN_RESULT.UN_KNOWN
 }
@@ -137,7 +150,7 @@ function getFlagAuthenGroup(action: string, groups: FirebaseFirestore.QuerySnaps
 }
 
 async function getAuhenticationGroup(pathInfo: Pojo.Paths, uid: string, data: AccessData): Promise<AUTHEN_RESULT> {
-  if(!pathInfo.groups || !pathInfo.groups.length || pathInfo.groups.length === 0) {
+  if (!pathInfo.groups || !pathInfo.groups.length || pathInfo.groups.length === 0) {
     return AUTHEN_RESULT.UN_KNOWN;
   }
   const groups = await db.collection("groups")
@@ -149,6 +162,7 @@ async function getAuhenticationGroup(pathInfo: Pojo.Paths, uid: string, data: Ac
   }
 
   let action = data.action;
+  console.log("aaa");
   switch (action) {
     case Constant.ACTION.FULL_CONTROL:
       return getFlagAuthenGroup("full_control", groups);
