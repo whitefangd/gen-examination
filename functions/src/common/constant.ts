@@ -1,5 +1,6 @@
 enum ROLE {
-    ANONYMOUS = "ANONYMOUS"
+    ANONYMOUS = "ANONYMOUS",
+    USER = "USER"
 }
 
 enum ACTION {

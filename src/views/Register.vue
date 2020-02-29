@@ -3,7 +3,7 @@
     <v-content>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
+          <v-col cols="12" sm="8" md="6">
             <v-card class="elevation-12">
               <v-toolbar flat>
                 <v-toolbar-title>{{$t('register-title')}}</v-toolbar-title>
@@ -42,12 +42,11 @@
                       </v-col>
                     </v-row>
                     <v-row align="center" justify="center">
-                      <v-col>
-                        <span>{{LICENSE}}</span>
-                      </v-col>
+                      <v-col v-html="LICENSE"></v-col>
                     </v-row>
                   </v-container>
                 </v-alert>
+                <div id="recaptcha-container"></div>
               </v-card-text>
               <v-card-actions>
                 <v-btn :to="{path: '/login'}">
@@ -73,6 +72,7 @@
 
 <script lang="ts">
 import Component, { mixins } from "vue-class-component";
+import * as firebase from "firebase";
 import RegisterMixin from "@/mixins/register";
 import LoginMixin from "@/mixins/login";
 import LICENSE from "!!raw-loader!@/LICENSE";

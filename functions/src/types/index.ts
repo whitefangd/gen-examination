@@ -5,7 +5,7 @@ export declare class Paths {
 }
 
 export namespace Pojo {
-    export declare class Paths implements DocumentData {
+    export declare class PojpPaths implements DocumentData {
         path: string
         groups: Array<string>
         roles: Array<string>
