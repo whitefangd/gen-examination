@@ -64,7 +64,7 @@ export default class LoginMixin extends Vue {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        self.pushError({ message: errorMessage, errorCode: errorCode });
+        self.pushError({ message: errorCode, error: errorMessage, errorCode: errorCode });
       });
   }
   loginByGoogle() {
@@ -98,7 +98,7 @@ export default class LoginMixin extends Vue {
       var email = error.email;
       // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential;
-      self.pushError({ message: errorMessage, email: email, credential: credential, errorCode: errorCode });
+      self.pushError({ message: errorCode, error: errorMessage, email: email, credential: credential, errorCode: errorCode });
     });
   }
 

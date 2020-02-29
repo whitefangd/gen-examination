@@ -1,9 +1,9 @@
 import access from "./checkpermission";
-import login from "./login";
+import create from "./create";
 
 const Authentication = {
   access: access,
-  login: login
+  create: create
 }
 
 export {

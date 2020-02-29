@@ -16,10 +16,10 @@ const access = functions.https.onCall(async (data: AccessData, context) => {
 
     if (!data.path) {
         await LOGGER.error("Authentication-access", "No have path from client", data);
-        throw new functions.https.HttpsError('unauthenticated', "FUNCERR000100001");
+        throw new functions.https.HttpsError('permission-denied', "FUNCERR000100001");
     } if (!data.action) {
         await LOGGER.error("Authentication-access", "No have action from client", data);
-        throw new functions.https.HttpsError('unauthenticated', "FUNCERR000100002");
+        throw new functions.https.HttpsError('permission-denied', "FUNCERR000100002");
     }
 
     let uid = "999999999"
@@ -29,12 +29,13 @@ const access = functions.https.onCall(async (data: AccessData, context) => {
 
     const paths = await db.collection("paths").where("path", "==", data.path).get();
     const user = await db.doc("users/" + uid).get();
+
     if (paths.docs && paths.docs.length && paths.docs.length === 1) {
         const pathData: any = paths.docs[0].data();
         const pathPojo: Pojo.PojpPaths = pathData;
         if (!user || !user.data()) {
             await LOGGER.error("Authentication-access", "User is't found in database", data);
-            throw new functions.https.HttpsError('unauthenticated', "FUNCERR000100004");
+            throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
         }
 
         const flagAuthUser = await getAuhenticationPathUser(pathPojo, uid, data);
@@ -43,26 +44,26 @@ const access = functions.https.onCall(async (data: AccessData, context) => {
 
         if (flagAuthUser === AUTHEN_RESULT.DENY) {
             await LOGGER.error("Authentication-access", "User is't permission", { type: "paths", uid: user.id, user: user.data(), data_client: data });
-            throw new functions.https.HttpsError('unauthenticated', "FUNCERR000100004");
+            throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
         } if (flagAuthUser === AUTHEN_RESULT.ALLOW) {
             return;
-        } else if (flagAuthGroup == AUTHEN_RESULT.DENY) {
+        } else if (flagAuthGroup === AUTHEN_RESULT.DENY) {
             await LOGGER.error("Authentication-access", "User is't permission", { type: "groups", uid: user.id, user: user.data(), data_client: data });
-            throw new functions.https.HttpsError('unauthenticated', "FUNCERR000100004");
-        } else if (flagAuthGroup == AUTHEN_RESULT.ALLOW) {
+            throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
+        } else if (flagAuthGroup === AUTHEN_RESULT.ALLOW) {
             return;
-        } else if (flagAuthRole == AUTHEN_RESULT.DENY) {
+        } else if (flagAuthRole === AUTHEN_RESULT.DENY) {
             await LOGGER.error("Authentication-access", "User is't permission", { type: "roles", uid: user.id, user: user.data(), data_client: data });
-            throw new functions.https.HttpsError('unauthenticated', "FUNCERR000100004");
-        } else if (flagAuthRole == AUTHEN_RESULT.ALLOW) {
+            throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
+        } else if (flagAuthRole === AUTHEN_RESULT.ALLOW) {
             return;
         } else {
             await LOGGER.error("Authentication-access", "User is't permission", { type: "Unknown", uid: user.id, user: user.data(), data_client: data });
-            throw new functions.https.HttpsError('unauthenticated', "FUNCERR000100004");
+            throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
         }
     } else {
         await LOGGER.error("Authentication-access", "Path is't found in database", data);
-        throw new functions.https.HttpsError('unauthenticated', "FUNCERR000100003");
+        throw new functions.https.HttpsError('permission-denied', "FUNCERR000100003");
     }
 })
 

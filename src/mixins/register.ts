@@ -44,10 +44,21 @@ export default class RegisterMixin extends Vue {
         }
       }).catch(function (error: any) {
         // Handle Errors here.
-        var errorCode = error.code;
+        var errorCode: string = error.code;
         var errorMessage = error.message;
-        self.pushError({ message: errorMessage, errorCode: errorCode });
+        self.detectErrorCode(errorCode);
+        self.pushError({ message: "error." + errorCode, error: errorMessage, errorCode: errorCode });
       });
+  }
 
+  private detectErrorCode(errorCode: string) {
+    switch (errorCode) {
+      case "auth/email-already-in-use":
+        
+        break;
+    
+      default:
+        break;
+    }
   }
 }
