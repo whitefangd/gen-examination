@@ -13,7 +13,6 @@ import {
 
 @Component
 export default class LoginMixin extends Vue {
-  @Getter('firebaseAuth') firebaseAuth!: any
   @Action('googleToken') googleToken!: (token: string) => void
   @Action('pushError') pushError!: (detail: any) => void
 
@@ -32,7 +31,7 @@ export default class LoginMixin extends Vue {
 
   created() {
     const self = this;
-    const currentUser = self.firebaseAuth.currentUser;
+    const currentUser = firebase.auth().currentUser;
     if (!currentUser) {
       switch (Vue.prototype.$session.get('PROVIDER_ID')) {
         case firebase.auth.GoogleAuthProvider.PROVIDER_ID:
@@ -50,7 +49,7 @@ export default class LoginMixin extends Vue {
     const self = this;
     const PROVIDER_ID = firebase.auth.EmailAuthProvider.PROVIDER_ID;
     Vue.prototype.$session.set(CONSTANT.KEY_PROVIDER_ID, PROVIDER_ID);
-    self.firebaseAuth.signInWithEmailAndPassword(self._login_username, self._login_password)
+    firebase.auth().signInWithEmailAndPassword(self._login_username, self._login_password)
       .then(function (user: any) {
         Vue.prototype.$session.remove('PROVIDER_ID');
         if (!user) {
@@ -72,12 +71,12 @@ export default class LoginMixin extends Vue {
     const PROVIDER_ID = firebase.auth.GoogleAuthProvider.PROVIDER_ID;
     var provider = new firebase.auth.GoogleAuthProvider();
     Vue.prototype.$session.set(CONSTANT.KEY_PROVIDER_ID, PROVIDER_ID);
-    self.firebaseAuth.signInWithRedirect(provider);
+    firebase.auth().signInWithRedirect(provider);
   }
   resultLoginByGoogle() {
     const self = this;
     Vue.prototype.$session.remove(CONSTANT.KEY_PROVIDER_ID);
-    self.firebaseAuth.getRedirectResult().then(function (result: any) {
+    firebase.auth().getRedirectResult().then(function (result: any) {
       if (result.credential) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = result.credential.accessToken;

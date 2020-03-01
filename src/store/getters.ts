@@ -5,9 +5,6 @@ const GETTERS: GetterTree<State, State> = {
   firebase(state: State): any {
     return state.firebase;
   },
-  firebaseAuth(state: State): any {
-    return state.firebaseAuth;
-  },
   alertMessage(state: State): Array<any> {
     return state.alertMessage;
   },

@@ -11,9 +11,6 @@ require('firebase')
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const firebaseAuth = firebase.auth();
 firebase.functions().useFunctionsEmulator("/api")
 
 export default firebase;
-
-export { firebaseAuth }

@@ -1,16 +1,13 @@
 import firebase from "@/firebase";
-import { firebaseAuth } from "@/firebase";
 
 class State {
   private static STATE = new State()
   private _firebase: any
-  private _firebaseAuth: any
   private _googleToken: string
   private _alertMessage: Array<any>
 
   private constructor() {
     this._firebase = firebase;
-    this._firebaseAuth = firebaseAuth;
     this._googleToken = "";
     this._alertMessage = [];
   }
@@ -21,9 +18,6 @@ class State {
 
   public get firebase(): any {
     return this._firebase;
-  }
-  public get firebaseAuth(): any {
-    return this._firebaseAuth;
   }
   public get googleToken(): string {
     return this._googleToken;

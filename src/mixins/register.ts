@@ -12,7 +12,6 @@ import {
 
 @Component
 export default class RegisterMixin extends Vue {
-  @Getter('firebaseAuth') firebaseAuth!: any
   @Action('pushError') pushError!: (detail: any) => void
 
   protected _register_username: string
@@ -27,7 +26,7 @@ export default class RegisterMixin extends Vue {
 
   created() {
     const self = this;
-    const currentUser = self.firebaseAuth.currentUser;
+    const currentUser = firebase.auth().currentUser;
     if (currentUser) {
       self.$router.push({ path: '/' });
     }
@@ -35,7 +34,7 @@ export default class RegisterMixin extends Vue {
 
   register() {
     const self = this;
-    self.firebaseAuth.createUserWithEmailAndPassword(self._register_username, self._register_password)
+    firebase.auth().createUserWithEmailAndPassword(self._register_username, self._register_password)
       .then(function (user: firebase.auth.UserCredential) {
         if (!user) {
           self.pushError({ message: "ERR000000002" });
@@ -46,19 +45,41 @@ export default class RegisterMixin extends Vue {
         // Handle Errors here.
         var errorCode: string = error.code;
         var errorMessage = error.message;
-        self.detectErrorCode(errorCode);
-        self.pushError({ message: "error." + errorCode, error: errorMessage, errorCode: errorCode });
+        if (self.detectErrorCode(errorCode)) {
+          self.pushError({ message: "error." + errorCode, error: errorMessage, errorCode: errorCode });
+        }
       });
   }
 
-  private detectErrorCode(errorCode: string) {
+  private async detectErrorCode(errorCode: string): Promise<boolean> {
     switch (errorCode) {
       case "auth/email-already-in-use":
-        
-        break;
-    
+        return await this.createUserAutomatic();
+
       default:
         break;
+    }
+    return true;
+  }
+
+  private async createUserAutomatic(): Promise<boolean> {
+    const self = this;
+    const currentUser = firebase.auth().currentUser;
+    if (currentUser && currentUser.providerId !== firebase.auth.EmailAuthProvider.PROVIDER_ID) {
+      var credential = firebase.auth.EmailAuthProvider
+        .credential(this._register_username, this._register_password);
+      return await currentUser.linkWithCredential(credential).then((onfulfilled) => {
+        if(onfulfilled.user) {
+          self.$router.push({ path: '/' });
+          return false;
+        } else {
+          return true;
+        }
+      }).catch((onrejected) => {
+        return true;
+      });
+    } else {
+      return true;
     }
   }
 }
