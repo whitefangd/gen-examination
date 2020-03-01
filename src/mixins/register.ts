@@ -55,7 +55,7 @@ export default class RegisterMixin extends Vue {
     switch (errorCode) {
       case "auth/email-already-in-use":
         return await this.createUserAutomatic();
-
+        return true;
       default:
         break;
     }

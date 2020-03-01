@@ -24,7 +24,7 @@ const access = functions.https.onCall(async (data: AccessData, context) => {
 
     let uid = "999999999"
     if (context.auth) {
-        uid = context.auth.uid;
+        uid = context.auth.token.email;
     }
 
     const paths = await db.collection("paths").where("path", "==", data.path).get();
@@ -34,7 +34,7 @@ const access = functions.https.onCall(async (data: AccessData, context) => {
         const pathData: any = paths.docs[0].data();
         const pathPojo: Pojo.PojpPaths = pathData;
         if (!user || !user.data()) {
-            await LOGGER.error("Authentication-access", "User is't found in database", data);
+            await LOGGER.error("Authentication-access", "User is't found in database", {data: data, user: uid});
             throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
         }
 
