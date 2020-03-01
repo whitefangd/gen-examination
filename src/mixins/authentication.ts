@@ -16,8 +16,22 @@ export default class AuthenticationMixin extends Vue {
   beforeCreate() {
     const self = this;
     const access = firebase.functions().httpsCallable("Authentication-access");
-    access({ path: this.$route.path, action: "ACCESS" }).catch(function (error) { 
-      self.$router.push({ path: '/error/' + error.code});
+    access({ path: self.$route.path, action: "ACCESS" }).catch(function (error) {
+      if (self.passPath(self.$route.path)) {
+        self.$router.push({ path: '/' });
+      } else {
+        self.$router.push({ path: '/error/' + error.code });
+      }
     });
+  }
+
+  passPath(path: string): boolean {
+    switch (path) {
+      case "/login":
+      case "/register":
+        return true;
+      default:
+        return false;
+    }
   }
 }
