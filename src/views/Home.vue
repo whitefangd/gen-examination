@@ -29,15 +29,19 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: "Home",
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    };
+<script lang="ts">
+import Component, { mixins } from "vue-class-component";
+import LoginMixin from "@/mixins/login";
+import AuthenticationMixin from "@/mixins/authentication";
+
+
+@Component
+export default class Home extends mixins(AuthenticationMixin) {
+  
+  constructor() {
+    super();
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

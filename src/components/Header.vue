@@ -10,7 +10,7 @@
         </v-btn>
       </template>
 
-      <v-card>
+      <v-card v-if="isNotLogin">
         <v-list>
           <v-list-item link :to="{path: '/login'}">
             <v-list-item-title>{{$t('login')}}</v-list-item-title>
@@ -18,19 +18,24 @@
               <v-icon>mdi-login</v-icon>
             </v-list-item-icon>
           </v-list-item>
+        </v-list>
+      </v-card>
+      <v-card v-else>
+        <v-list>
           <v-list-item>
             <v-list-item-avatar>
               <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>John Leider</v-list-item-title>
-              <v-list-item-subtitle>Founder of Vuetify.js</v-list-item-subtitle>
+              <v-list-item-title v-if="currentUser.displayName">{{ currentUser.displayName }}</v-list-item-title>
+              <v-list-item-subtitle v-if="currentUser.displayName">{{ currentUser.email }}</v-list-item-subtitle>
+              <v-list-item-title v-if="!currentUser.displayName">{{ currentUser.email }}</v-list-item-title>
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
-                <v-icon>mdi-heart</v-icon>
+              <v-btn icon>
+                <v-icon>mdi-account</v-icon>
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -39,48 +44,67 @@
         <v-divider></v-divider>
 
         <v-list>
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="message" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>Enable messages</v-list-item-title>
+          <v-list-item link :to="{path: '/system'}">
+            <v-list-item-title>{{$t('system-management')}}</v-list-item-title>
+            <v-list-item-icon>
+              <v-icon>mdi-code-braces</v-icon>
+            </v-list-item-icon>
           </v-list-item>
 
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="hints" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>Enable hints</v-list-item-title>
+          <v-list-item link>
+            <v-list-item-title>{{$t('general-setting')}}</v-list-item-title>
+            <v-list-item-icon>
+              <v-icon>mdi-settings</v-icon>
+            </v-list-item-icon>
           </v-list-item>
         </v-list>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
-          <v-btn text @click="menu = false">Cancel</v-btn>
-          <v-btn color="primary" text @click="menu = false">Save</v-btn>
+          <v-btn text @click="logout">{{$t("logout")}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
   </v-app-bar>
 </template>
 
-<script>
-export default {
-  name: "Header",
-  props: ["show"],
-  data: function() {
-    return {
-      drawing: this.show
-    };
-  },
-  methods: {
-    clickIconMenu: function() {
-      this.drawing = !this.drawing;
-      this.$emit("click-icon-menu", this.drawing);
-    }
+<script lang="ts">
+import * as firebase from "firebase/app";
+import { Component, Mixins, Prop } from "vue-property-decorator";
+import LoginMixin from "@/mixins/login";
+import AuthenticationMixin from "@/mixins/authentication";
+import LogoutMixin from "@/mixins/logout";
+import { State, Getter, Action, Mutation, namespace } from "vuex-class";
+
+@Component
+export default class Header extends Mixins(AuthenticationMixin, LogoutMixin) {
+  @Prop(Boolean) show?: boolean;
+
+  @Getter("firebase") firebase!: typeof firebase;
+
+  private drawing: boolean | undefined = false;
+  private menu: boolean = false;
+  private currentUser: firebase.User | null;
+
+  constructor() {
+    super();
+    this.currentUser = null;
   }
-};
+
+  created() {
+    this.drawing = this.show;
+    this.currentUser = this.firebase.auth().currentUser;
+  }
+
+  get isNotLogin(): boolean {
+    return this.currentUser == null;
+  }
+
+  clickIconMenu() {
+    this.drawing = !this.drawing;
+    this.$emit("click-icon-menu", this.drawing);
+  }
+}
 </script>
 
 <style>

@@ -6,12 +6,15 @@ import Alert from '@/components/Alert.vue'
 import router from '@/router'
 import vuetify from '@/plugins/vuetify' // path to vuetify export
 import i18n from '@/plugins/i18n' // path to vuetify export
+import "@/firebase";
 import store from '@/store';
+import firebase from "@/mixins/firebase";
 import "@/plugins/sessionstorage"
 
 Vue.config.productionTip = false
 
 Vue.component("Alert", Alert);
+Vue.mixin(firebase);
 
 /* eslint-disable no-new */
 new Vue({

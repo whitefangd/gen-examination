@@ -63,10 +63,6 @@ export default class Login extends mixins(LoginMixin, AuthenticationMixin) {
     super();
   }
 
-  beforeRouteEnter(to: any, from: any, next: any) {
-    debugger;
-  }
-
   data() {
     return {
       msg: "Welcome to Your Vue.js App"

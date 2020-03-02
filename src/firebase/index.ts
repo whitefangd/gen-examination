@@ -17,13 +17,13 @@ firebase.initializeApp(firebaseConfig);
 
 firebase.functions().useFunctionsEmulator("/api")
 
-export default firebase;
+// export default firebase;
 
-// Get a Firestore instance
-export const db = firebase
-    .firestore()
+// // Get a Firestore instance
+// export const db = firebase
+//     .firestore()
 
-// Export types that exists in Firestore
-// This is not always necessary, but it's used in other examples
-const { Timestamp, GeoPoint, Blob } = firebase.firestore
-export { Timestamp, GeoPoint, Blob }
+// // Export types that exists in Firestore
+// // This is not always necessary, but it's used in other examples
+// const { Timestamp, GeoPoint, Blob } = firebase.firestore
+// export { Timestamp, GeoPoint, Blob }
