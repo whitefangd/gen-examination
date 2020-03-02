@@ -15,10 +15,10 @@ declare class AccessData {
 const access = functions.https.onCall(async (data: AccessData, context) => {
 
     if (!data.path) {
-        await LOGGER.error("Authentication-access", "No have path from client", data);
+        LOGGER.error("Authentication-access", "No have path from client", data);
         throw new functions.https.HttpsError('permission-denied', "FUNCERR000100001");
     } if (!data.action) {
-        await LOGGER.error("Authentication-access", "No have action from client", data);
+        LOGGER.error("Authentication-access", "No have action from client", data);
         throw new functions.https.HttpsError('permission-denied', "FUNCERR000100002");
     }
 
@@ -34,7 +34,7 @@ const access = functions.https.onCall(async (data: AccessData, context) => {
         const pathData: any = paths.docs[0].data();
         const pathPojo: Pojo.PojpPaths = pathData;
         if (!user || !user.data()) {
-            await LOGGER.error("Authentication-access", "User is't found in database", {data: data, user: uid});
+            LOGGER.error("Authentication-access", "User is't found in database", {data: data, user: uid});
             throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
         }
 
@@ -43,26 +43,26 @@ const access = functions.https.onCall(async (data: AccessData, context) => {
         const flagAuthGroup = await getAuhenticationGroup(pathPojo, uid, data);
 
         if (flagAuthUser === AUTHEN_RESULT.DENY) {
-            await LOGGER.error("Authentication-access", "User is't permission", { type: "paths", uid: user.id, user: user.data(), data_client: data });
+            LOGGER.error("Authentication-access", "User is't permission", { type: "paths", uid: user.id, user: user.data(), data_client: data });
             throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
         } if (flagAuthUser === AUTHEN_RESULT.ALLOW) {
             return;
         } else if (flagAuthGroup === AUTHEN_RESULT.DENY) {
-            await LOGGER.error("Authentication-access", "User is't permission", { type: "groups", uid: user.id, user: user.data(), data_client: data });
+            LOGGER.error("Authentication-access", "User is't permission", { type: "groups", uid: user.id, user: user.data(), data_client: data });
             throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
         } else if (flagAuthGroup === AUTHEN_RESULT.ALLOW) {
             return;
         } else if (flagAuthRole === AUTHEN_RESULT.DENY) {
-            await LOGGER.error("Authentication-access", "User is't permission", { type: "roles", uid: user.id, user: user.data(), data_client: data });
+            LOGGER.error("Authentication-access", "User is't permission", { type: "roles", uid: user.id, user: user.data(), data_client: data });
             throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
         } else if (flagAuthRole === AUTHEN_RESULT.ALLOW) {
             return;
         } else {
-            await LOGGER.error("Authentication-access", "User is't permission", { type: "Unknown", uid: user.id, user: user.data(), data_client: data });
+            LOGGER.error("Authentication-access", "User is't permission", { type: "Unknown", uid: user.id, user: user.data(), data_client: data });
             throw new functions.https.HttpsError('permission-denied', "FUNCERR000100004");
         }
     } else {
-        await LOGGER.error("Authentication-access", "Path is't found in database", data);
+        LOGGER.error("Authentication-access", "Path is't found in database", data);
         throw new functions.https.HttpsError('permission-denied', "FUNCERR000100003");
     }
 })

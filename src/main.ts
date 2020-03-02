@@ -8,6 +8,7 @@ import vuetify from '@/plugins/vuetify' // path to vuetify export
 import i18n from '@/plugins/i18n' // path to vuetify export
 import store from '@/store';
 import "@/plugins/sessionstorage"
+import "@/plugins/authentication"
 
 Vue.config.productionTip = false
 

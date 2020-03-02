@@ -20,15 +20,15 @@ const create = functions.auth.user().onCreate(async (user, context) => {
                 await LOGGER.info("Authentication-create", "Create user is successful", ref);
                 return ref;
             }).catch(async onrejected => {
-                await LOGGER.error("Authentication-create", "Create user is failed", onrejected);
+                LOGGER.error("Authentication-create", "Create user is failed", onrejected);
                 throw new functions.https.HttpsError('aborted', "FUNCERR000200003");
             })
         } else {
-            await LOGGER.error("Authentication-create", "No have user information for create");
+            LOGGER.error("Authentication-create", "No have user information for create");
             throw new functions.https.HttpsError('already-exists', "FUNCERR000200002");
         }
     } else {
-        await LOGGER.error("Authentication-create", "No have user information for create");
+        LOGGER.error("Authentication-create", "No have user information for create");
         throw new functions.https.HttpsError('internal', "FUNCERR000200001");
     }
 });

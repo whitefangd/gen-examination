@@ -20,6 +20,7 @@
     "vue-property-decorator": "^8.4.0",
     "vue-router": "^3.0.1",
     "vue-sessionstorage": "^1.0.0",
+    "vuefire": "^2.2.1",
     "vuetify": "^2.2.14",
     "vuex": "^3.1.2",
     "vuex-class": "^0.3.2"

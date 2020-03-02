@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import firebase from "firebase/app";
+import firebase from "@/firebase";
 import CONSTANT from "@/common/constant";
 import {
   State,
