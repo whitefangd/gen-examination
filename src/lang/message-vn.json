@@ -13,5 +13,15 @@
   "general-setting": "Cài đật chung",
   "error": {
     "auth/email-already-in-use": "Địa chỉ Email sử dụng đã tồn tại"
+  },
+  "system-menu": {
+    "user-setting": "Quản lý người dùng",
+    "user-list": "Người dùng",
+    "role-list": "Quyền hạn",
+    "group-list": "Phân nhóm",
+    "page-setting": "Quản lý Trang",
+    "examination-setting": "Hệ thống tạo đề thi",
+    "subjects-list": "Môn học",
+    "question-type": "Loại câu hỏi"
   }
 }
