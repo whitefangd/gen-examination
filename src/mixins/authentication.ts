@@ -3,7 +3,7 @@ import Component from 'vue-class-component'
 import * as firebase from "firebase/app";
 
 @Component({
-  beforeRouteEnter
+  
 })
 export default class AuthenticationMixin extends Vue {
   

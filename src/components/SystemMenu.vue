@@ -9,19 +9,19 @@
             </v-list-item-icon>
             <v-list-item-title>{{ $t("system-menu.user-setting")}}</v-list-item-title>
           </template>
-          <v-list-item link>
+          <v-list-item link :to="{path: '/system/roles'}">
             <v-list-item-title>{{ $t("system-menu.role-list")}}</v-list-item-title>
             <v-list-item-icon>
               <v-icon>mdi-account-star</v-icon>
             </v-list-item-icon>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link :to="{path: '/system/groups'}">
             <v-list-item-title>{{ $t("system-menu.group-list")}}</v-list-item-title>
             <v-list-item-icon>
               <v-icon>mdi-account-multiple-plus</v-icon>
             </v-list-item-icon>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link :to="{path: '/system/users'}">
             <v-list-item-title>{{ $t("system-menu.user-list")}}</v-list-item-title>
             <v-list-item-icon>
               <v-icon>mdi-account-multiple</v-icon>

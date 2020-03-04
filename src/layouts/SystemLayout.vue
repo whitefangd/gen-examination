@@ -24,12 +24,15 @@ import SystemMenu from "@/components/SystemMenu.vue";
   }
 })
 export default class SystemLayout extends Vue {
-
   private drawer: boolean;
 
   constructor() {
-      super()
-      this.drawer = true
+    super();
+    this.drawer = true;
+  }
+
+  created() {
+    this.$vuetify.theme.dark = true;
   }
 
   clickIconMenu(show: boolean) {
