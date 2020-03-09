@@ -11,8 +11,8 @@
           <template v-slot:default>
             <thead>
               <tr>
-                <th>Role key</th>
-                <th>Role name</th>
+                <th>Group key</th>
+                <th>Group name</th>
                 <th>access</th>
                 <th>read</th>
                 <th>create</th>
@@ -25,8 +25,8 @@
             </thead>
             <tbody>
               <tr>
-                <td>Role key</td>
-                <td>Role name</td>
+                <td>Group key</td>
+                <td>Group name</td>
                 <td>
                   <v-checkbox></v-checkbox>
                 </td>
@@ -70,7 +70,7 @@ import Vue from "vue";
 import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
 
 @Component
-export default class Roles extends Vue {}
+export default class Subjects extends Vue {}
 </script>
 </script>
 

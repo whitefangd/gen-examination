@@ -27,18 +27,19 @@ export default class LoginMixin extends Vue {
 
   created() {
     const self = this;
-    const currentUser = self.firebase.auth().currentUser;
-    if (!currentUser) {
-      switch (Vue.prototype.$session.get('PROVIDER_ID')) {
-        case self.firebase.auth.GoogleAuthProvider.PROVIDER_ID:
-          return this.resultLoginByGoogle();
-          break;
-        default:
-          break;
+    self.firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        switch (Vue.prototype.$session.get('PROVIDER_ID')) {
+          case self.firebase.auth.GoogleAuthProvider.PROVIDER_ID:
+            return this.resultLoginByGoogle();
+            break;
+          default:
+            break;
+        }
+      } else {
+        self.$router.push({ path: '/' });
       }
-    } else {
-      self.$router.push({ path: '/' });
-    }
+    });
   }
 
   loginByAccount() {

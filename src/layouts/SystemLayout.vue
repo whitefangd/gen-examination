@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
-    <Header :show="drawer" @click-icon-menu="clickIconMenu"></Header>
-    <SystemMenu :drawer="drawer"></SystemMenu>
+    <Header :show="drawer" @click-icon-menu="updatedDrawing" type="system"></Header>
+    <SystemMenu :show="drawer" @updated-drawing="updatedDrawing"></SystemMenu>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -35,7 +35,7 @@ export default class SystemLayout extends Vue {
     this.$vuetify.theme.dark = true;
   }
 
-  clickIconMenu(show: boolean) {
+  updatedDrawing(show: boolean) {
     this.drawer = show;
   }
 }

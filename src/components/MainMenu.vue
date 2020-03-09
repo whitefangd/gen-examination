@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" app clipped>
+  <v-navigation-drawer v-model="drawing" @input="updatedDrawing" app clipped>
     <v-list dense>
       <template v-for="menu in menus">
         <v-list-group :key="menu.id" v-if="menu.isGroup" no-action>
@@ -27,18 +27,28 @@
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import menus from "@/setting/menu.json";
+import Vue from "vue";
+import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
 
-export default {
-  name: "MainMenu",
-  props: ["drawer"],
-  data: function() {
-    return {
-      menus: menus
-    };
+@Component
+export default class SystemMenu extends Vue {
+  @Prop(Boolean) show!: boolean;
+  @Watch('show')
+  watchShow(val: boolean, oldVal: boolean) {
+    this.drawing = val
   }
-};
+
+  menus = menus;
+  drawing = false;
+  created() {
+    this.drawing = this.show
+  }
+  updatedDrawing(value: boolean) {
+    this.$emit("updated-drawing", this.drawing);
+  }
+}
 </script>
 
 <style>

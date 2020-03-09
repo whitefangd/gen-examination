@@ -11,7 +11,7 @@ const messages = {
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: 'vn', // set locale
-  messages
+  messages,
+  silentTranslationWarn: true
 });
-
 export default i18n

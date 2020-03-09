@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
-    <Header :show="drawer" @click-icon-menu="clickIconMenu" ></Header>
-    <MainMenu :drawer="drawer"></MainMenu>
+    <Header :show="drawer" @click-icon-menu="updatedDrawing" type="default"></Header>
+    <MainMenu :show="drawer" @updated-drawing="updatedDrawing"></MainMenu>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -31,8 +31,11 @@ export default {
     this.$vuetify.theme.dark = false;
   },
   methods: {
-    clickIconMenu:function(show) {
-      this.drawer = show;
+    clickIconMenu: function(value) {
+      this.drawer = value;
+    },
+    updatedDrawing: function(value) {
+      this.drawer = value;
     }
   }
 };

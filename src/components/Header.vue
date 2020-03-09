@@ -1,7 +1,12 @@
 <template>
-  <v-app-bar app clipped-left>
+  <v-app-bar app clipped-left :color="color" dark>
     <v-app-bar-nav-icon @click="clickIconMenu()" />
-    <v-toolbar-title>{{ $t('title') }}</v-toolbar-title>
+    <v-toolbar-title>
+      <v-btn icon @click="goHome">
+        <v-icon>mdi-home-variant</v-icon>
+      </v-btn>
+      {{ $t('title') }}
+    </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-y>
       <template v-slot:activator="{ on }">
@@ -70,7 +75,7 @@
 
 <script lang="ts">
 import * as firebase from "firebase/app";
-import { Component, Mixins, Prop } from "vue-property-decorator";
+import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
 import LoginMixin from "@/mixins/login";
 import AuthenticationMixin from "@/mixins/authentication";
 import LogoutMixin from "@/mixins/logout";
@@ -78,13 +83,17 @@ import { State, Getter, Action, Mutation, namespace } from "vuex-class";
 
 @Component
 export default class Header extends Mixins(AuthenticationMixin, LogoutMixin) {
-  @Prop(Boolean) show?: boolean;
-
+  @Prop(String) type!: "default" | "system";
+  @Prop(Boolean) show!: boolean;
+  @Watch("show")
+  watchShow(val: boolean, oldVal: boolean) {
+    this.drawing = val;
+  }
   @Getter("firebase") firebase!: typeof firebase;
 
-  private drawing: boolean | undefined = false;
   private menu: boolean = false;
   private currentUser: firebase.User | null;
+  private drawing = false;
 
   constructor() {
     super();
@@ -92,17 +101,38 @@ export default class Header extends Mixins(AuthenticationMixin, LogoutMixin) {
   }
 
   created() {
+    const self = this;
+    this.firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        self.currentUser = user;
+      }
+    });
     this.drawing = this.show;
-    this.currentUser = this.firebase.auth().currentUser;
   }
+
+  mounted() {}
 
   get isNotLogin(): boolean {
     return this.currentUser == null;
   }
 
+  get color(): string {
+    switch (this.type) {
+      case "default":
+        return "primary";
+      case "system":
+        return "red darken-4";
+      default:
+        return "primary";
+    }
+  }
+
   clickIconMenu() {
     this.drawing = !this.drawing;
     this.$emit("click-icon-menu", this.drawing);
+  }
+  goHome() {
+    this.$router.push({ path: "/" });
   }
 }
 </script>

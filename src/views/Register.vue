@@ -1,11 +1,11 @@
 <template>
   <v-app id="inspire">
     <v-content>
-      <v-container class="fill-height" fluid>
+      <v-container class="fill-height grey lighten-2" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="6">
             <v-card class="elevation-12">
-              <v-toolbar flat>
+              <v-toolbar flat color="primary" dark>
                 <v-toolbar-title>{{$t('register-title')}}</v-toolbar-title>
                 <v-spacer />
               </v-toolbar>
@@ -34,7 +34,7 @@
                     type="password"
                   />
                 </v-form>
-                <v-alert dense elevation="10" style="max-height: 300px" class="overflow-y-auto">
+                <v-alert dense elevation="10" style="max-height: 300px" class="overflow-y-auto orange lighten-4">
                   <v-container>
                     <v-row>
                       <v-col>
@@ -49,16 +49,16 @@
                 <div id="recaptcha-container"></div>
               </v-card-text>
               <v-card-actions>
-                <v-btn :to="{path: '/login'}">
+                <v-btn :to="{path: '/login'}" color="secondary">
                   {{$t('login')}}
                   <v-icon right>mdi-login</v-icon>
                 </v-btn>
                 <v-spacer />
-                <v-btn @click="register">
+                <v-btn @click="register" color="primary">
                   {{$t('register')}}
                   <v-icon right>mdi-account-edit</v-icon>
                 </v-btn>
-                <v-btn @click="loginByGoogle">
+                <v-btn @click="loginByGoogle" color="red darken-4" dark>
                   <v-icon>mdi-google</v-icon>
                 </v-btn>
               </v-card-actions>

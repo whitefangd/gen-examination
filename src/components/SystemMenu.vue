@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" app clipped width="300">
+  <v-navigation-drawer v-model="drawing" @input="updatedDrawing" app clipped width="300">
     <v-list dense>
       <template>
         <v-list-group no-action>
@@ -43,13 +43,13 @@
             </v-list-item-icon>
             <v-list-item-title>{{ $t("system-menu.examination-setting")}}</v-list-item-title>
           </template>
-          <v-list-item link>
+          <v-list-item link :to="{path: '/system/subjects'}">
             <v-list-item-title>{{ $t("system-menu.subjects-list")}}</v-list-item-title>
             <v-list-item-icon>
               <v-icon>mdi-account-star</v-icon>
             </v-list-item-icon>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link :to="{path: '/system/question'}">
             <v-list-item-title>{{ $t("system-menu.question-type")}}</v-list-item-title>
             <v-list-item-icon>
               <v-icon>mdi-account-star</v-icon>
@@ -67,9 +67,18 @@ import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
 
 @Component
 export default class SystemMenu extends Vue {
-  @Prop(Boolean) drawer!: boolean;
-  @Watch("drawer")
-  watchDrawer(val: boolean, oldVal: boolean) {}
+  @Prop(Boolean) show!: boolean;
+  @Watch("show")
+  watchShow(val: boolean, oldVal: boolean) {
+    this.drawing = val;
+  }
+  drawing = false;
+  created() {
+    this.drawing = this.show;
+  }
+  updatedDrawing(value: boolean) {
+    this.$emit("updated-drawing", this.drawing);
+  }
 }
 </script>
 

@@ -13,7 +13,7 @@ export default class App extends Vue {
   constructor() {
     super()
     this.drawer = false;
-    this.$vuetify.theme.dark = true;
+    this.$vuetify.theme.dark = false;
   }
 };
 </script>

@@ -8,6 +8,10 @@ const Register = () => import('@/views/Register.vue')
 const Dashboard = () => import('@/views/Dashboard.vue')
 const PageSetting = () => import('@/views/PageSetting.vue')
 const Roles = () => import('@/views/Roles.vue')
+const Groups = () => import('@/views/Groups.vue')
+const Users = () => import('@/views/Users.vue')
+const Subjects = () => import('@/views/Subjects.vue')
+const Question = () => import('@/views/Question.vue')
 
 Vue.use(VueRouter)
 
@@ -44,6 +48,26 @@ const ROUTE_TREE: RouterOptions = {
           path: 'roles',
           name: 'Roles',
           component: Roles
+        },
+        {
+          path: 'groups',
+          name: 'Groups',
+          component: Groups
+        },
+        {
+          path: 'users',
+          name: 'Users',
+          component: Users
+        },
+        {
+          path: 'subjects',
+          name: 'Subjects',
+          component: Subjects
+        },
+        {
+          path: 'question',
+          name: 'Question',
+          component: Question
         }
       ]
     },

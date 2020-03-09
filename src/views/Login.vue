@@ -1,11 +1,11 @@
 <template>
   <v-app id="inspire">
     <v-content>
-      <v-container class="fill-height" fluid>
+      <v-container class="fill-height grey lighten-2" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar flat>
+              <v-toolbar flat color="primary" dark>
                 <v-toolbar-title>{{$t('login-title')}}</v-toolbar-title>
                 <v-spacer />
               </v-toolbar>
@@ -29,16 +29,16 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <v-btn :to="{path: '/register'}">
+                <v-btn color="secondary" :to="{path: '/register'}">
                   {{$t('register')}}
                   <v-icon right>mdi-account-edit</v-icon>
                 </v-btn>
                 <v-spacer />
-                <v-btn @click="loginByAccount">
+                <v-btn @click="loginByAccount" color="primary">
                   {{$t('login')}}
                   <v-icon right>mdi-login</v-icon>
                 </v-btn>
-                <v-btn @click="loginByGoogle">
+                <v-btn color="red darken-4" dark @click="loginByGoogle">
                   <v-icon>mdi-google</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -63,11 +63,6 @@ export default class Login extends mixins(LoginMixin, AuthenticationMixin) {
     super();
   }
 
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    };
-  }
   get username(): string {
     return this._login_username;
   }
