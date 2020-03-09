@@ -23,5 +23,10 @@
     "examination-setting": "Hệ thống tạo đề thi",
     "subjects-list": "Môn học",
     "question-type": "Loại câu hỏi"
+  },
+  "subjects":{
+    "key": "Khóa chính",
+    "name": "Tên môn học",
+    "disabled": "Vô hiệu hóa"
   }
 }
