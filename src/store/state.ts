@@ -12,6 +12,7 @@
 import * as firebase from "firebase/app";
 
 class State {
+  [key: string]: any
   private static STATE = new State()
   private _firebase: typeof firebase;
   private _googleToken: string
@@ -32,7 +33,7 @@ class State {
   public get firebase(): any {
     return this._firebase;
   }
-  public get database(): any {
+  public get database(): firebase.firestore.Firestore {
     return this._database;
   }
   public get googleToken(): string {

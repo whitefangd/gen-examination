@@ -2,7 +2,7 @@ import { MutationTree } from 'vuex'
 import State from '@/store/state'
 import { vuexfireMutations } from 'vuexfire'
 
-const MUTATIONS: MutationTree<State> = {
+const MUTATIONS: MutationTree<any> = {
     googleToken(state: State, token: string) {
         state.googleToken = token;
     },
@@ -11,8 +11,7 @@ const MUTATIONS: MutationTree<State> = {
     },
     cleanAlertMessage(state: State) {
         state.cleanAlertMessage();
-    },
-    ...vuexfireMutations
+    }
 }
 
-export default MUTATIONS;
+export default Object.assign(vuexfireMutations, MUTATIONS);

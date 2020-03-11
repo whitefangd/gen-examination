@@ -1,5 +1,6 @@
 import { ActionTree, ActionContext } from 'vuex'
 import State from '@/store/state'
+import { firestoreAction } from 'vuexfire'
 
 const ACTIONS: ActionTree<State, State> = {
 
@@ -13,7 +14,12 @@ const ACTIONS: ActionTree<State, State> = {
             message: detail.message,
             detail: detail
         });
-    }
+    },
+    bindSubjects: firestoreAction((context) => {
+        // return the promise returned by `bindFirestoreRef`
+        let database: firebase.firestore.Firestore = context.getters.database
+        return context.bindFirestoreRef('subjects', database.collection('subjects'))
+    })
 }
 
 export default ACTIONS;

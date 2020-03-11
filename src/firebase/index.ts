@@ -4,6 +4,7 @@ import Vue from 'vue'
 import * as firebase from "firebase/app";
 import firebaseConfig from "@/setting/firebase.json";
 import { firestorePlugin } from 'vuefire'
+import { firestoreOptions } from 'vuexfire'
 
 // Add the Firebase services that you want to use
 import "firebase/auth";
@@ -11,6 +12,9 @@ import "firebase/firestore";
 require('firebase')
 
 Vue.use(firestorePlugin)
+
+// always wait for bindings to be resolved
+firestoreOptions.wait = true;
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

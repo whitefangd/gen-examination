@@ -13,4 +13,8 @@ import {
 export default class Firebase extends Vue {
     @Getter("firebase") firebase!: typeof firebase
     @Getter("database") database!: firebase.firestore.Firestore;
+
+    created() {
+        
+    }
 }

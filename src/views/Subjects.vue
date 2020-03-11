@@ -24,7 +24,7 @@
                 <td>
                   <v-checkbox></v-checkbox>
                 </td>
-                <td class="float-right">
+                <td>
                   <v-btn icon>
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
@@ -36,7 +36,7 @@
             </tbody>
           </template>
         </v-simple-table>
-        <v-data-table :headers="headers" :items="desserts" :items-per-page="5" class="elevation-1"></v-data-table>
+        <v-data-table :headers="headers" :items="subjects" :items-per-page="5" class="elevation-1"></v-data-table>
       </v-col>
     </v-row>
   </v-container>
@@ -45,28 +45,40 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
+import { Getter, Action } from "vuex-class";
 
 declare class Header {
-  text: string
-  value: string
+  text: string;
+  value: string;
+}
+
+declare class DataSources {
+  idL: string;
+  key: string;
+  name: string;
+  disabled: boolean;
+
 }
 
 @Component
 export default class Subjects extends Vue {
+  @Getter("subjects") subjects!: Array<DataSources>;
+
+  @Watch("subjects") watchSubjects() { }
+
   headers: Header[] = [
+    { text: "subjects.key", value: "id" },
     { text: "subjects.key", value: "key" },
     { text: "subjects.name", value: "name" },
     { text: "subjects.disabled", value: "disabled" },
-    { text: "", value: "function" }
+    
   ];
 
   constructor() {
     super();
   }
 
-  created() {
-    
-  }
+  created() {}
 }
 </script>
 
