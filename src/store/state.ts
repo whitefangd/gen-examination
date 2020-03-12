@@ -12,18 +12,19 @@
 import * as firebase from "firebase/app";
 
 class State {
-  [key: string]: any
   private static STATE = new State()
   private _firebase: typeof firebase;
   private _googleToken: string
   private _alertMessage: Array<any>
   private _database: firebase.firestore.Firestore;
+  private _subjects: Array<any>;
 
   private constructor() {
     this._firebase = firebase;
     this._database = firebase.firestore();
     this._googleToken = "";
     this._alertMessage = [];
+    this._subjects = [];
   }
 
   public static get instance(): State {
@@ -44,6 +45,12 @@ class State {
   }
   public get alertMessage(): Array<any> {
     return this._alertMessage;
+  }
+  public set subjects(subjects: Array<any>) {
+    this._subjects = subjects;
+  }
+  public get subjects(): Array<any> {
+    return this._subjects;
   }
   public pushAlertMessage(alert: any) {
     this._alertMessage.push(alert);

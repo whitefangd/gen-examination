@@ -15,6 +15,7 @@ const GETTERS: GetterTree<State, State> = {
     return state.googleToken;
   },
   subjects(state: State): any {
+    console.log(state.subjects);
     return state.subjects;
   }
 };

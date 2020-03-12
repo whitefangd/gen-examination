@@ -63,7 +63,6 @@ declare class DataSources {
 @Component
 export default class Subjects extends Vue {
   @Getter("subjects") subjects!: Array<DataSources>;
-
   @Watch("subjects") watchSubjects() { }
 
   headers: Header[] = [
@@ -78,7 +77,9 @@ export default class Subjects extends Vue {
     super();
   }
 
-  created() {}
+  created() {
+    
+  }
 }
 </script>
 
