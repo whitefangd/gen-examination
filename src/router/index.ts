@@ -11,6 +11,7 @@ const Roles = () => import('@/views/Roles.vue')
 const Groups = () => import('@/views/Groups.vue')
 const Users = () => import('@/views/Users.vue')
 const Subjects = () => import('@/views/Subjects.vue')
+const SubjectEdit = () => import('@/views/SubjectEdit.vue')
 const Question = () => import('@/views/Question.vue')
 
 Vue.use(VueRouter)
@@ -62,7 +63,12 @@ const ROUTE_TREE: RouterOptions = {
         {
           path: 'subjects',
           name: 'Subjects',
-          component: Subjects
+          component: Subjects,
+          children: [{
+            path: 'edit/:id',
+            name: 'SubjectEdit',
+            component: SubjectEdit,
+          }]
         },
         {
           path: 'question',

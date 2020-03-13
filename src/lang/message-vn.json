@@ -24,9 +24,11 @@
     "subjects-list": "Môn học",
     "question-type": "Loại câu hỏi"
   },
-  "subjects":{
-    "key": "Khóa chính",
+  "subjects": {
+    "key": "Khóa",
     "name": "Tên môn học",
-    "disabled": "Vô hiệu hóa"
+    "sortkey": "Sắp xếp",
+    "disabled": "Vô hiệu hóa",
+    "add": "Thêm môn học"
   }
 }

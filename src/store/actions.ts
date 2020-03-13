@@ -18,7 +18,7 @@ const ACTIONS: ActionTree<State, State> = {
     bindSubjects: firestoreAction((context) => {
         // return the promise returned by `bindFirestoreRef`
         let database: firebase.firestore.Firestore = context.getters.database
-        return context.bindFirestoreRef('subjects', database.collection('subjects'))
+        return context.bindFirestoreRef('subjects', database.collection('subjects').orderBy("sortkey", "asc"))
     })
 }
 
