@@ -64,11 +64,16 @@ const ROUTE_TREE: RouterOptions = {
           path: 'subjects',
           name: 'Subjects',
           component: Subjects,
-          children: [{
-            path: 'edit/:id',
-            name: 'SubjectEdit',
-            component: SubjectEdit,
-          }]
+        },
+        {
+          path: 'subjects/edit/:id',
+          name: 'SubjectEdit',
+          component: SubjectEdit,
+        },
+        {
+          path: 'subjects/add',
+          name: 'SubjectEdit',
+          component: SubjectEdit,
         },
         {
           path: 'question',

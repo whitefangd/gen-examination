@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-btn color="red darken-4" :to="{path: '/system/subjects/edit'}">
+        <v-btn color="red darken-4" :to="{path: '/system/subjects/add'}">
           <v-icon small>mdi-pencil-plus</v-icon>
           {{ $t('subjects.add') }}
         </v-btn>

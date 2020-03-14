@@ -29,6 +29,7 @@
     "name": "Tên môn học",
     "sortkey": "Sắp xếp",
     "disabled": "Vô hiệu hóa",
-    "add": "Thêm môn học"
+    "add": "Thêm môn học",
+    "save": "Lưu"
   }
 }
