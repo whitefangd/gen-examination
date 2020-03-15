@@ -91,8 +91,8 @@
 import { ROUTE_TREE, RouterOptions, RouteConfig } from "@/router";
 import TreeItem from "@/types/TreeItem";
 import Component, { mixins } from "vue-class-component";
-import LoginMixin from "@/mixins/login";
-import AuthenticationMixin from "@/mixins/authentication";
+import LoginMixin from "@/mixins/logic/login";
+import AuthenticationMixin from "@/mixins/logic/authentication";
 
 @Component
 export default class PageSetting extends mixins(AuthenticationMixin) {

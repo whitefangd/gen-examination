@@ -76,9 +76,9 @@
 <script lang="ts">
 import * as firebase from "firebase/app";
 import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
-import LoginMixin from "@/mixins/login";
-import AuthenticationMixin from "@/mixins/authentication";
-import LogoutMixin from "@/mixins/logout";
+import LoginMixin from "@/mixins/logic/login";
+import AuthenticationMixin from "@/mixins/logic/authentication";
+import LogoutMixin from "@/mixins/logic/logout";
 import { State, Getter, Action, Mutation, namespace } from "vuex-class";
 
 @Component

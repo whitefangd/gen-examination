@@ -10,6 +10,7 @@
 // export { Timestamp, GeoPoint, Blob }
 
 import * as firebase from "firebase/app";
+import SubjectsEntity from '@/types/entities/SubjectsEntity';
 
 class State {
   private static STATE = new State()
@@ -17,7 +18,7 @@ class State {
   private _googleToken: string
   private _alertMessage: Array<any>
   private _database: firebase.firestore.Firestore;
-  private _subjects: Array<any>;
+  private _subjects: Array<SubjectsEntity>;
 
   private constructor() {
     this._firebase = firebase;
@@ -46,10 +47,10 @@ class State {
   public get alertMessage(): Array<any> {
     return this._alertMessage;
   }
-  public set subjects(subjects: Array<any>) {
+  public set subjects(subjects: Array<SubjectsEntity>) {
     this._subjects = subjects;
   }
-  public get subjects(): Array<any> {
+  public get subjects(): Array<SubjectsEntity> {
     return this._subjects;
   }
   public pushAlertMessage(alert: any) {

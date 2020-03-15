@@ -1,5 +1,6 @@
 import { GetterTree } from 'vuex'
 import State from '@/store/state'
+import SubjectsEntity from '@/types/entities/SubjectsEntity';
 
 const GETTERS: GetterTree<State, State> = {
   firebase(state: State): any {
@@ -14,7 +15,7 @@ const GETTERS: GetterTree<State, State> = {
   googleToken(state: State): string {
     return state.googleToken;
   },
-  subjects(state: State): any {
+  subjects(state: State): Array<SubjectsEntity> {
     return state.subjects;
   }
 };

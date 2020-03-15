@@ -73,10 +73,10 @@
 <script lang="ts">
 import Component, { mixins } from "vue-class-component";
 import * as firebase from "firebase";
-import RegisterMixin from "@/mixins/register";
-import LoginMixin from "@/mixins/login";
+import RegisterMixin from "@/mixins/logic/register";
+import LoginMixin from "@/mixins/logic/login";
 import LICENSE from "!!raw-loader!@/LICENSE";
-import AuthenticationMixin from "@/mixins/authentication";
+import AuthenticationMixin from "@/mixins/logic/authentication";
 
 @Component
 export default class Register extends mixins(

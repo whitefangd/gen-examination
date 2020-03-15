@@ -31,8 +31,8 @@
 
 <script lang="ts">
 import Component, { mixins } from "vue-class-component";
-import LoginMixin from "@/mixins/login";
-import AuthenticationMixin from "@/mixins/authentication";
+import LoginMixin from "@/mixins/logic/login";
+import AuthenticationMixin from "@/mixins/logic/authentication";
 
 
 @Component

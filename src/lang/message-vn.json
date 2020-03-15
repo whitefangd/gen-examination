@@ -11,6 +11,10 @@
   "logout": "Đăng xuất",
   "system-management": "Quảng lý hệ thống",
   "general-setting": "Cài đật chung",
+  "save": "Lưu",
+  "cancel": "Hủy",
+  "delete": "Xóa",
+  "ok": "Đồng ý",
   "error": {
     "auth/email-already-in-use": "Địa chỉ Email sử dụng đã tồn tại"
   },
@@ -29,7 +33,13 @@
     "name": "Tên môn học",
     "sortkey": "Sắp xếp",
     "disabled": "Vô hiệu hóa",
-    "add": "Thêm môn học",
-    "save": "Lưu"
-  }
+    "add": "Thêm môn học"
+  },
+  "dialog-confirm": {
+    "title": "Xác nhận",
+    "change-content": "Dữ liệu chưa được lưu. Bạn có muốn hủy ?"
+  },
+
+  "SUC000010001": "Lưu thành công",
+  "ERR000010001": "Lưu thất bại"
 }

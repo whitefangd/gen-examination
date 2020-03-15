@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import firebase from "firebase/app";
-import Component from 'vue-class-component'
+import { Component } from "vue-property-decorator";
 import {
     State,
     Getter,

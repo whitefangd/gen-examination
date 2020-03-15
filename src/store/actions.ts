@@ -15,8 +15,15 @@ const ACTIONS: ActionTree<State, State> = {
             detail: detail
         });
     },
+    pushSuccess(context: ActionContext<State, State>, detail: any) {
+        context.commit('cleanAlertMessage');
+        context.commit('alertMessage', {
+            type: "SUCCESS",
+            message: detail.message,
+            detail: detail
+        });
+    },
     bindSubjects: firestoreAction((context) => {
-        // return the promise returned by `bindFirestoreRef`
         let database: firebase.firestore.Firestore = context.getters.database
         return context.bindFirestoreRef('subjects', database.collection('subjects').orderBy("sortkey", "asc"))
     })

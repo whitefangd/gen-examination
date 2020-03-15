@@ -72,7 +72,6 @@ import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class Users extends Vue {}
 </script>
-</script>
 
 <style>
 </style>

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Component } from "vue-property-decorator";
 import firebase from "firebase/app";
 import CONSTANT from "@/common/constant";
 import {

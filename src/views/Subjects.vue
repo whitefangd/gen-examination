@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-btn color="red darken-4" :to="{path: '/system/subjects/add'}">
-          <v-icon small>mdi-pencil-plus</v-icon>
+          <v-icon>mdi-pencil-plus</v-icon>
           {{ $t('subjects.add') }}
         </v-btn>
       </v-col>
@@ -43,34 +43,14 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
-import { Getter, Action } from "vuex-class";
 
-declare class Header {
-  text: string;
-  value: string;
-  align?: "start" | "center" | "end";
-  sortable?: boolean;
-  filterable?: boolean;
-  divider?: boolean;
-  class?: string | string[];
-  width?: string | number;
-  filter?: (value: any, search: string, item: any) => boolean;
-  sort?: (a: any, b: any) => number;
-}
-
-declare class DataSources {
-  idL: string;
-  key: string;
-  name: string;
-  disabled: boolean;
-}
+import SubjectsEntity from "@/types/entities/SubjectsEntity";
+import HeaderDatatableType from "@/types/HeaderDatatableType";
+import SubjectsMixin from "@/mixins/logic/subjects";
 
 @Component
-export default class Subjects extends Vue {
-  @Getter("subjects") subjects!: Array<DataSources>;
-  @Watch("subjects") watchSubjects() {}
-
-  headers: Header[] = [
+export default class Subjects extends Mixins(SubjectsMixin) {
+  headers: HeaderDatatableType[] = [
     { text: "subjects.key", value: "id", sortable: false },
     { text: "subjects.name", value: "name", sortable: false },
     { text: "subjects.disabled", value: "disabled", sortable: false },
@@ -87,6 +67,15 @@ export default class Subjects extends Vue {
   }
 
   created() {}
+
+  editItem(item: SubjectsEntity) {
+    this.$router.push({
+      name: "SubjectEdit",
+      params: {
+        id: item.id
+      }
+    });
+  }
 }
 </script>
 
