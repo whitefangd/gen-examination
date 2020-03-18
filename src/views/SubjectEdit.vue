@@ -126,7 +126,8 @@ export default class SubjectEdit extends Mixins(SubjectsMixin) {
     }
     if (flag) {
       this.pushSuccess({ message: "SUC000010001" });
-      setTimeout(function() {
+      let successWaiting = setTimeout(function() {
+        clearTimeout(successWaiting);
         self.$router.replace({
           name: "Subjects"
         });

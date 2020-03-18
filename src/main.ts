@@ -10,11 +10,13 @@ import "@/firebase";
 import store from '@/store';
 import firebase from "@/mixins/firebase";
 import "@/plugins/sessionstorage"
+import AuthenticationMixin from '@/mixins/logic/authentication'
 
 Vue.config.productionTip = false
 
 Vue.component("Alert", Alert);
 Vue.mixin(firebase);
+Vue.mixin(AuthenticationMixin);
 
 /* eslint-disable no-new */
 new Vue({

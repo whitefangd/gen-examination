@@ -7,6 +7,9 @@ const ACTIONS: ActionTree<State, State> = {
     googleToken(context: ActionContext<State, State>, token: string) {
         context.commit('googleToken', token);
     },
+    cleanAlertMessage(context: ActionContext<State, State>) {
+        context.commit('cleanAlertMessage');
+    },
     pushError(context: ActionContext<State, State>, detail: any) {
         context.commit('cleanAlertMessage');
         context.commit('alertMessage', {
