@@ -26,10 +26,19 @@ const ACTIONS: ActionTree<State, State> = {
             detail: detail
         });
     },
+    showLoading(context: ActionContext<State, State>) {
+        context.commit('loading', true);
+    },
+    hideLoading(context: ActionContext<State, State>) {
+        context.commit('loading', false);
+    },
     bindSubjects: firestoreAction((context) => {
         let database: firebase.firestore.Firestore = context.getters.database
         return context.bindFirestoreRef('subjects', database.collection('subjects').orderBy("sortkey", "asc"))
-    })
+    }),
+    unbindSubjects: firestoreAction((context) => {
+        context.unbindFirestoreRef('subjects');
+    }),
 }
 
 export default ACTIONS;

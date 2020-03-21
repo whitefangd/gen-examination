@@ -19,6 +19,7 @@ class State {
   private _alertMessage: Array<any>
   private _database: firebase.firestore.Firestore;
   private _subjects: Array<SubjectsEntity>;
+  private _loading: boolean;
 
   private constructor() {
     this._firebase = firebase;
@@ -26,6 +27,7 @@ class State {
     this._googleToken = "";
     this._alertMessage = [];
     this._subjects = [];
+    this._loading = false;
   }
 
   public static get instance(): State {
@@ -43,6 +45,12 @@ class State {
   }
   public set googleToken(token: string) {
     this._googleToken = token;
+  }
+  public get loading(): boolean {
+    return this._loading;
+  }
+  public set loading(loading: boolean) {
+    this._loading = loading;
   }
   public get alertMessage(): Array<any> {
     return this._alertMessage;

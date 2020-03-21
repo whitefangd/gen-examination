@@ -24,7 +24,11 @@
           <template v-slot:header.sortkey="{ header }">{{ $t(header.text) }}</template>
 
           <template v-slot:item.disabled="{ item }">
-            <v-simple-checkbox v-model="item.disabled" color="red darken-4"></v-simple-checkbox>
+            <v-simple-checkbox
+              @input="setDisabled($event, item)"
+              v-model="item.disabled"
+              color="red darken-4"
+            ></v-simple-checkbox>
           </template>
           <template v-slot:item.sortkey="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">mdi-arrow-up</v-icon>
@@ -47,9 +51,10 @@ import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
 import SubjectsEntity from "@/types/entities/SubjectsEntity";
 import HeaderDatatableType from "@/types/HeaderDatatableType";
 import SubjectsMixin from "@/mixins/logic/subjects";
+import ScreenMixin from "@/mixins/screen";
 
 @Component
-export default class Subjects extends Mixins(SubjectsMixin) {
+export default class Subjects extends Mixins(SubjectsMixin, ScreenMixin) {
   headers: HeaderDatatableType[] = [
     { text: "subjects.key", value: "id", sortable: false },
     { text: "subjects.name", value: "name", sortable: false },
@@ -60,13 +65,16 @@ export default class Subjects extends Mixins(SubjectsMixin) {
 
   constructor() {
     super();
+    this.afterOfCreated = this.afterOfCreatedFunc;
   }
 
   get loadding() {
     return !(this.subjects && this.subjects.length > 0);
   }
 
-  created() {}
+  async afterOfCreatedFunc() {
+    return await this.bindSubjects();
+  }
 
   editItem(item: SubjectsEntity) {
     this.$router.push({
@@ -74,6 +82,14 @@ export default class Subjects extends Mixins(SubjectsMixin) {
       params: {
         id: item.id
       }
+    });
+  }
+
+  setDisabled($event: boolean, item: SubjectsEntity) {
+    const self = this;
+    self.showLoading();
+    self.disabled($event, item).then(() => {
+      self.hideLoading();
     });
   }
 }

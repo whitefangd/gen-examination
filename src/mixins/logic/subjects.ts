@@ -5,6 +5,8 @@ import SubjectsEntity from '@/types/entities/SubjectsEntity';
 
 @Component
 export default class SubjectsMixin extends Vue {
+  @Action("bindSubjects") bindSubjects!: () => Promise<any>;
+  @Action("unbindSubjects") unbindSubjects!: () => Promise<any>;
   @Getter("subjects") subjects!: Array<SubjectsEntity>;
   @Getter("database") database!: firebase.firestore.Firestore;
   @Watch("subjects") watchSubjects() { }
@@ -41,5 +43,16 @@ export default class SubjectsMixin extends Vue {
     }).catch(onrejected => {
       return false;
     });
+  }
+
+  disabled(value: boolean, item: SubjectsEntity) {
+    item.disabled = value;
+    return this.database.collection("subjects")
+      .doc(item.id)
+      .set(item);
+  }
+
+  async destroyed() {
+    return await this.unbindSubjects();
   }
 }

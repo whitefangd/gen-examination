@@ -11,6 +11,9 @@ const MUTATIONS: MutationTree<any> = {
     },
     cleanAlertMessage(state: State) {
         state.cleanAlertMessage();
+    },
+    loading(state: State, loading: boolean) {
+        state.loading = loading;
     }
 }
 

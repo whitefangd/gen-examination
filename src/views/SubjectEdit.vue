@@ -58,13 +58,6 @@
         </v-btn>
       </v-col>
     </v-row>
-    <confirm-dialog
-      :show="show"
-      @cancel="confirmCancel"
-      @ok="confirmOk"
-      :title="$t('dialog-confirm.title')"
-      :content="$t('dialog-confirm.change-content')"
-    ></confirm-dialog>
   </v-container>
 </template>
 
@@ -75,12 +68,13 @@ import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
 import SubjectsMixin from "@/mixins/logic/subjects";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import SubjectsEntity from "../types/entities/SubjectsEntity";
+import ScreenMixin from "@/mixins/screen";
 
 @Component({
   components: { "confirm-dialog": ConfirmDialog }
 })
-export default class SubjectEdit extends Mixins(SubjectsMixin) {
-  show = false;
+export default class SubjectEdit extends Mixins(SubjectsMixin, ScreenMixin) {
+  id: string = "";
   subject: SubjectsEntity = {
     id: "",
     disabled: false,
@@ -88,29 +82,29 @@ export default class SubjectEdit extends Mixins(SubjectsMixin) {
     sortkey: -1
   };
 
-  get id(): string {
-    return this.$route.params["id"];
+  constructor() {
+    super();
+    this.afterOfCreated = this.afterOfCreatedFunc;
   }
 
-  async created() {
-    if (this.id) {
-      let tempObj = await this.findSubjectById(this.id);
-      if (tempObj) {
-        this.subject = tempObj;
+  afterOfCreatedFunc(): Promise<any> {
+    const self = this;
+    this.id = this.$route.params["id"];
+    return new Promise<any>((resolve, reject) => {
+      if (self.id) {
+        resolve(self.findSubjectById(self.id).then((value) => {
+          if (value) {
+            self.subject = value;
+          }
+          return value;
+        }));
+      } else {
+        resolve();
       }
-    }
+    });
   }
 
   cancel() {
-    this.show = true;
-  }
-
-  confirmCancel() {
-    this.show = false;
-  }
-
-  confirmOk() {
-    this.show = false;
     this.$router.replace({
       name: "Subjects"
     });
@@ -119,21 +113,15 @@ export default class SubjectEdit extends Mixins(SubjectsMixin) {
   async save() {
     const self = this;
     let flag = false;
-    if (this.id) {
-      flag = await this.update(this.subject);
+    if (self.id) {
+      flag = await self.update(this.subject);
     } else {
-      flag = await this.create(this.subject);
+      flag = await self.create(this.subject);
     }
     if (flag) {
-      this.pushSuccess({ message: "SUC000010001" });
-      let successWaiting = setTimeout(function() {
-        clearTimeout(successWaiting);
-        self.$router.replace({
-          name: "Subjects"
-        });
-      }, 3000);
+      self.pushSuccess({ message: "SUC000010001" });
     } else {
-      this.pushError({ message: "ERR000010001" });
+      self.pushError({ message: "ERR000010001" });
     }
   }
 }

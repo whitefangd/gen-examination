@@ -1,18 +1,12 @@
 import Vue from 'vue'
 import { Component } from "vue-property-decorator";
 import * as firebase from "firebase/app";
-import { Action } from 'vuex-class';
 
 @Component({
   
 })
 export default class AuthenticationMixin extends Vue {
-  @Action('cleanAlertMessage') cleanAlertMessage!: () => void
-  mounted() {
-    if(this.cleanAlertMessage) {
-      this.cleanAlertMessage();
-    }
-  }
+
 }
 
 function beforeRouteEnter(to: any, from: any, next: any) {

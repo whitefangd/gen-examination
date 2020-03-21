@@ -6,6 +6,7 @@
       <router-view></router-view>
     </v-content>
     <Footer></Footer>
+    <Loading></Loading>
   </v-app>
 </template>
 
@@ -14,6 +15,7 @@ import Vue from "vue";
 import { Component, Mixins, Prop } from "vue-property-decorator";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import Loading from "@/components/Loading.vue";
 import SystemMenu from "@/components/SystemMenu.vue";
 import RouteView from "@/router/RouteView.vue";
 import { Action } from 'vuex-class';
@@ -23,7 +25,8 @@ import { Action } from 'vuex-class';
     Header,
     Footer,
     SystemMenu,
-    RouteView
+    RouteView,
+    Loading
   }
 })
 export default class SystemLayout extends Vue {

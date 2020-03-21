@@ -17,6 +17,9 @@ const GETTERS: GetterTree<State, State> = {
   },
   subjects(state: State): Array<SubjectsEntity> {
     return state.subjects;
+  },
+  loading(state: State): boolean {
+    return state.loading;
   }
 };
 
