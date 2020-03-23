@@ -2,7 +2,6 @@ import Vue from 'vue'
 import { Component, Watch } from "vue-property-decorator";
 import { Action } from 'vuex-class';
 
-let count = 0;
 @Component({
   beforeRouteEnter: beforeRouteEnter
 })
@@ -11,21 +10,21 @@ export default class ScreenMixin extends Vue {
   @Action("showLoading") showLoading!: () => void;
   @Action("hideLoading") hideLoading!: () => void;
 
-  protected beforeOfCreated: (() => Promise<any>) | undefined;
-  protected afterOfCreated: (() => Promise<any>) | undefined;
-  protected beforeOfBeforeMount: (() => Promise<any>) | undefined;
-  protected afterOfBeforeMount: (() => Promise<any>) | undefined;
-  protected beforeOfMounted: (() => Promise<any>) | undefined;
-  protected afterOfMounted: (() => Promise<any>) | undefined;
-  protected beforeOfDestroyed: (() => Promise<any>) | undefined;
-  protected afterOfDestroyed: (() => Promise<any>) | undefined;
+  protected beforeOfCreated: (() => Promise<any>) | Array<(() => Promise<any>)> | undefined;
+  protected afterOfCreated: (() => Promise<any>) | Array<(() => Promise<any>)> | undefined;
+  protected beforeOfBeforeMount: (() => Promise<any>) | Array<(() => Promise<any>)> | undefined;
+  protected afterOfBeforeMount: (() => Promise<any>) | Array<(() => Promise<any>)> | undefined;
+  protected beforeOfMounted: (() => Promise<any>) | Array<(() => Promise<any>)> | undefined;
+  protected afterOfMounted: (() => Promise<any>) | Array<(() => Promise<any>)> | undefined;
+  protected beforeOfDestroyed: (() => Promise<any>) | Array<(() => Promise<any>)> | undefined;
+  protected afterOfDestroyed: (() => Promise<any>) | Array<(() => Promise<any>)> | undefined;
 
   private lifecycleHooksAsync: Promise<any>;
   private lifecycleHooksAsyncRun: Promise<any>;
 
   constructor() {
     super();
-    this.lifecycleHooksAsync = new Promise((resolve, reject) => {
+    this.lifecycleHooksAsync = new Promise((resolve) => {
       resolve();
     });
     this.lifecycleHooksAsyncRun = this.lifecycleHooksAsync;
@@ -34,14 +33,18 @@ export default class ScreenMixin extends Vue {
   async created() {
     const self = this;
     self.lifecycleHooksAsyncRun = self.lifecycleHooksAsyncRun.then(function () {
-      if (self.beforeOfCreated) {
+      if (self.beforeOfCreated instanceof Function) {
         return self.beforeOfCreated();
+      } else if (self.beforeOfCreated instanceof Array) {
+        return Promise.all(self.beforeOfCreated);
       }
     }).then(function () {
       self.showLoading();
     }).then(function () {
-      if (self.afterOfCreated) {
+      if (self.afterOfCreated instanceof Function) {
         return self.afterOfCreated();
+      } else if (self.afterOfCreated instanceof Array) {
+        return Promise.all(self.afterOfCreated);
       }
     });
   }
@@ -49,14 +52,18 @@ export default class ScreenMixin extends Vue {
   async beforeMount() {
     const self = this;
     self.lifecycleHooksAsyncRun = self.lifecycleHooksAsyncRun.then(function () {
-      if (self.beforeOfBeforeMount) {
+      if (self.beforeOfBeforeMount instanceof Function) {
         return self.beforeOfBeforeMount();
+      } else if (self.beforeOfBeforeMount instanceof Array) {
+        return Promise.all(self.beforeOfBeforeMount);
       }
     }).then(function () {
       // do nothing
     }).then(function () {
-      if (self.afterOfBeforeMount) {
+      if (self.afterOfBeforeMount instanceof Function) {
         return self.afterOfBeforeMount();
+      } else if (self.afterOfBeforeMount instanceof Array) {
+        return Promise.all(self.afterOfBeforeMount);
       }
     });
   }
@@ -64,15 +71,19 @@ export default class ScreenMixin extends Vue {
   async mounted() {
     const self = this;
     self.lifecycleHooksAsyncRun = self.lifecycleHooksAsyncRun.then(function () {
-      if (self.beforeOfMounted) {
+      if (self.beforeOfMounted instanceof Function) {
         return self.beforeOfMounted();
+      } else if (self.beforeOfMounted instanceof Array) {
+        return Promise.all(self.beforeOfMounted);
       }
     }).then(function () {
       self.cleanAlertMessage();
       self.hideLoading();
     }).then(function () {
-      if (self.afterOfMounted) {
+      if (self.afterOfMounted instanceof Function) {
         return self.afterOfMounted();
+      } else if (self.afterOfMounted instanceof Array) {
+        return Promise.all(self.afterOfMounted);
       }
     });
   }
@@ -84,14 +95,18 @@ export default class ScreenMixin extends Vue {
   async destroyed() {
     const self = this;
     self.lifecycleHooksAsyncRun = self.lifecycleHooksAsyncRun.then(function () {
-      if (self.beforeOfDestroyed) {
+      if (self.beforeOfDestroyed instanceof Function) {
         return self.beforeOfDestroyed();
+      } else if (self.beforeOfDestroyed instanceof Array) {
+        return Promise.all(self.beforeOfDestroyed);
       }
     }).then(function () {
       // do nothing
     }).then(function () {
-      if (self.afterOfDestroyed) {
+      if (self.afterOfDestroyed instanceof Function) {
         return self.afterOfDestroyed();
+      } else if (self.afterOfDestroyed instanceof Array) {
+        return Promise.all(self.afterOfDestroyed);
       }
     });
   }

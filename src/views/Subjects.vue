@@ -85,10 +85,18 @@ export default class Subjects extends Mixins(SubjectsMixin, ScreenMixin) {
     });
   }
 
+  deleteItem(item: SubjectsEntity) {
+    const self = this;
+    self.showLoading();
+    self.delete(item).finally(() => {
+      self.hideLoading();
+    });
+  }
+
   setDisabled($event: boolean, item: SubjectsEntity) {
     const self = this;
     self.showLoading();
-    self.disabled($event, item).then(() => {
+    self.disabled($event, item).finally(() => {
       self.hideLoading();
     });
   }

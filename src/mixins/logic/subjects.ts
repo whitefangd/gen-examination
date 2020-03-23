@@ -52,6 +52,12 @@ export default class SubjectsMixin extends Vue {
       .set(item);
   }
 
+  delete(item: SubjectsEntity) {
+    return this.database.collection("subjects")
+      .doc(item.id)
+      .delete();
+  }
+
   async destroyed() {
     return await this.unbindSubjects();
   }
