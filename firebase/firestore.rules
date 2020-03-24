@@ -1,8 +1,18 @@
+function getRole(request) {
+  return get(/databases/$(database)/documents/users/$(request.auth.token.email)).data.role;
+}
+
 service cloud.firestore {
   match /databases/{database}/documents {
     match /subjects/{document=**} {
-      allow write: if get(/databases/$(database)/documents/users/$(request.auth.token.email)).data.role in ["SUPER", "ADMIN"];
-      allow read: if request.auth.uid != null;
+      function isAdmin() {
+        return request.auth.uid != null && get(/databases/$(database)/documents/users/$(request.auth.token.email)).data.role in ["SUPER", "ADMIN"]; 
+      }
+      function isUser() {
+        return request.auth.uid != null && !resource.data.disabled;
+      }
+      allow write: if isAdmin(); 
+      allow read: if isAdmin() || isUser();
     }
   }
 }

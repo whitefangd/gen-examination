@@ -112,6 +112,7 @@ export default class SubjectEdit extends Mixins(SubjectsMixin, ScreenMixin) {
 
   async save() {
     const self = this;
+    self.showLoading();
     let flag = false;
     if (self.id) {
       flag = await self.update(this.subject);
@@ -123,6 +124,7 @@ export default class SubjectEdit extends Mixins(SubjectsMixin, ScreenMixin) {
     } else {
       self.pushError({ message: "ERR000010001" });
     }
+    self.hideLoading();
   }
 }
 </script>

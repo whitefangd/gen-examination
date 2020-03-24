@@ -1,25 +1,9 @@
 [
     {
         "isGroup": true,
-        "id": "BLL0001000",
+        "id": "BLL-10001000",
         "icon": "mdi-label",
-        "title": "Cài đật chung",
-        "children": [
-            {
-                "id": "BLL0001001",
-                "icon": "mdi-label",
-                "title": "Người dùng"
-            },
-            {
-                "id": "BLL0001002",
-                "icon": "mdi-label",
-                "title": "Môn Học"
-            },
-            {
-                "id": "BLL0001003",
-                "icon": "mdi-label",
-                "title": "Loại câu hỏi"
-            }
-        ]
+        "title": "Môn học",
+        "children": []
     }
 ]
