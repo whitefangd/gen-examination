@@ -32,12 +32,20 @@ const ACTIONS: ActionTree<State, State> = {
     hideLoading(context: ActionContext<State, State>) {
         context.commit('loading', false);
     },
+
     bindSubjects: firestoreAction((context) => {
         let database: firebase.firestore.Firestore = context.getters.database
         return context.bindFirestoreRef('subjects', database.collection('subjects').orderBy("sortkey", "asc"))
     }),
     unbindSubjects: firestoreAction((context) => {
         context.unbindFirestoreRef('subjects');
+    }),
+    bindQuestions: firestoreAction((context, subjectId: string) => {
+        let database: firebase.firestore.Firestore = context.getters.database
+        return context.bindFirestoreRef('questions', database.collection('/subjects/' + subjectId + "/questions"))
+    }),
+    unbindQuestions: firestoreAction((context) => {
+        context.unbindFirestoreRef('questions');
     }),
 }
 

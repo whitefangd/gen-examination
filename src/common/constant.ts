@@ -1,3 +1,13 @@
 export default {
   KEY_PROVIDER_ID: "PROVIDER_ID"
 };
+
+export enum ACTION_COMMAND {
+  GEN_EXAMINATION = "GEN_EXAMINATION",
+  QUESTION = "QUESTION",
+}
+
+export enum MENU {
+  EXAMINATION = "BLL-10001000",
+  QUESTION =  "BLL-10002000",
+}

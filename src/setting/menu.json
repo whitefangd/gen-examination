@@ -3,7 +3,14 @@
         "isGroup": true,
         "id": "BLL-10001000",
         "icon": "mdi-label",
-        "title": "Môn học",
+        "title": "Đề thi",
+        "children": []
+    },
+    {
+        "isGroup": true,
+        "id": "BLL-10002000",
+        "icon": "mdi-label",
+        "title": "Câu hỏi",
         "children": []
     }
 ]

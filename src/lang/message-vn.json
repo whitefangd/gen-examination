@@ -35,6 +35,9 @@
     "disabled": "Vô hiệu hóa",
     "add": "Thêm môn học"
   },
+  "question-data": {
+    "add": "Thêm câu hỏi"
+  },
   "dialog-confirm": {
     "title": "Xác nhận",
     "change-content": "Dữ liệu chưa được lưu. Bạn có muốn hủy ?"

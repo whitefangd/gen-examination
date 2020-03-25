@@ -11,6 +11,7 @@
 
 import * as firebase from "firebase/app";
 import SubjectsEntity from '@/types/entities/SubjectsEntity';
+import QuestionsEntity from '@/types/entities/QuestionsEntity';
 
 class State {
   private static STATE = new State()
@@ -18,16 +19,20 @@ class State {
   private _googleToken: string
   private _alertMessage: Array<any>
   private _database: firebase.firestore.Firestore;
-  private _subjects: Array<SubjectsEntity>;
   private _loading: boolean;
+
+  private _subjects: Array<SubjectsEntity>;
+  private _questions: Array<QuestionsEntity>;
 
   private constructor() {
     this._firebase = firebase;
     this._database = firebase.firestore();
     this._googleToken = "";
     this._alertMessage = [];
-    this._subjects = [];
     this._loading = false;
+
+    this._subjects = [];
+    this._questions = [];
   }
 
   public static get instance(): State {
@@ -60,6 +65,12 @@ class State {
   }
   public get subjects(): Array<SubjectsEntity> {
     return this._subjects;
+  }
+  public set questions(questions: Array<QuestionsEntity>) {
+    this._questions = questions;
+  }
+  public get questions(): Array<QuestionsEntity> {
+    return this._questions;
   }
   public pushAlertMessage(alert: any) {
     this._alertMessage.push(alert);
