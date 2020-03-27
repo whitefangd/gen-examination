@@ -10,34 +10,38 @@
   </v-app>
 </template>
 
-<script>
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import MainMenu from "@/components/MainMenu";
+<script lang="ts">
+import Vue from "vue";
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
+import Loading from "@/components/Loading.vue";
+import MainMenu from "@/components/MainMenu.vue";
+import { Prop, Component } from "vue-property-decorator";
 
-export default {
-  name: "DefaultLayout",
-  props: {
-    source: String
-  },
+@Component({
   components: {
     Header,
     Footer,
-    MainMenu
-  },
-  data: () => ({
-    drawer: true
-  }),
+    MainMenu,
+    Loading
+  }
+})
+export default class DefaultLayout extends Vue {
+  @Prop({ default: "", type: String }) source!: string;
+
+  private drawer: boolean;
+
+  constructor() {
+    super();
+    this.drawer = true;
+  }
+
   created() {
     this.$vuetify.theme.dark = false;
-  },
-  methods: {
-    clickIconMenu: function(value) {
-      this.drawer = value;
-    },
-    updatedDrawing: function(value) {
-      this.drawer = value;
-    }
   }
-};
+
+  updatedDrawing(value: boolean) {
+    this.drawer = value;
+  }
+}
 </script>

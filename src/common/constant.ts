@@ -9,7 +9,7 @@ export enum ACTION_COMMAND {
 
 export enum MENU {
   EXAMINATION = "BLL-10001000",
-  QUESTION =  "BLL-10002000",
+  QUESTION = "BLL-10002000",
 }
 
 export enum QUESTION_TYPE {

@@ -17,7 +17,6 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import Loading from "@/components/Loading.vue";
 import SystemMenu from "@/components/SystemMenu.vue";
-import RouteView from "@/router/RouteView.vue";
 import { Action } from 'vuex-class';
 
 @Component({
@@ -25,7 +24,6 @@ import { Action } from 'vuex-class';
     Header,
     Footer,
     SystemMenu,
-    RouteView,
     Loading
   }
 })

@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-btn color="primary" :to="{path: '/system/question-data/add'}">
+        <v-btn color="primary" @click="add">
           <v-icon>mdi-pencil-plus</v-icon>
           {{ $t('question-data.add') }}
         </v-btn>
@@ -37,7 +37,7 @@
 import { Mixins, Component } from "vue-property-decorator";
 import ScreenMixin from "@/mixins/screen";
 import QuestionDataMixin from "@/mixins/logic/question-data";
-import HeaderDatatableType from "../types/HeaderDatatableType";
+import HeaderDatatableType from "@/types/HeaderDatatableType";
 
 @Component
 export default class QuestionData extends Mixins(
@@ -68,6 +68,16 @@ export default class QuestionData extends Mixins(
 
   async afterOfCreatedFunc() {
     return await this.bindQuestions(this.subjectId);
+  }
+
+  add() {
+    const self = this;
+    self.$router.push({
+      name: "QuestionDataAdd",
+      params: {
+        "subject": self.subjectId
+      }
+    });
   }
 }
 </script>

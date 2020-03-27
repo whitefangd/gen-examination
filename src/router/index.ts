@@ -15,6 +15,7 @@ const SubjectEdit = () => import('@/views/SubjectEdit.vue')
 const Question = () => import('@/views/Question.vue')
 const GenExamination = () => import('@/views/GenExamination.vue')
 const QuestionData = () => import('@/views/QuestionData.vue')
+const QuestionDataEdit = () => import('@/views/QuestionDataEdit.vue')
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,16 @@ const ROUTE_TREE: RouterOptions = {
           path: '/question/:id',
           name: 'QuestionData',
           component: QuestionData
+        },
+        {
+          path: '/question/:subject/add',
+          name: 'QuestionDataAdd',
+          component: QuestionDataEdit
+        },
+        {
+          path: '/question/:subject/edit/:id',
+          name: 'QuestionDataEdit',
+          component: QuestionDataEdit
         }
       ]
     },
@@ -84,7 +95,7 @@ const ROUTE_TREE: RouterOptions = {
         },
         {
           path: 'subjects/add',
-          name: 'SubjectEdit',
+          name: 'SubjectAdd',
           component: SubjectEdit,
         },
         {

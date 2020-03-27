@@ -108,9 +108,9 @@ export default class SystemMenu extends Mixins(SubjectsMixin, ScreenMixin) {
 
   action($event:MouseEvent, actionCmd: string, menu:any) {
     if(actionCmd === ACTION_COMMAND.GEN_EXAMINATION) {
-      this.$router.push("/gen-examination/" + menu.value);
+      this.$router.push({name: "GenExamination", params: {id: menu.value}});
     } else if(actionCmd === ACTION_COMMAND.QUESTION) {
-      this.$router.push("/question/" + menu.value);
+      this.$router.push({name: "QuestionData", params: {id: menu.value}});
     }
   }
 }
