@@ -4,11 +4,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Mixins, Component } from "vue-property-decorator";
+import { Mixins, Component, Prop } from "vue-property-decorator";
+import QuestionsEntity from '@/types/entities/QuestionsEntity';
 
 @Component
 export default class Question1001 extends Vue {
-
+    @Prop() data!: QuestionsEntity
 }
 </script>
 
