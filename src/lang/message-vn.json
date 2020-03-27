@@ -36,13 +36,28 @@
     "add": "Thêm môn học"
   },
   "question-data": {
-    "add": "Thêm câu hỏi"
+    "add": "Thêm câu hỏi",
+    "subtitle": "Câu hỏi",
+    "type": "Loại câu hỏi",
+    "user": "Người tạo"
   },
   "dialog-confirm": {
     "title": "Xác nhận",
     "change-content": "Dữ liệu chưa được lưu. Bạn có muốn hủy ?"
   },
-
+  "question-type": {
+    "1001": "Trắc nghiệm một lựa chọn",
+    "1002": "Trắc nghiệm nhiều lựa chọn",
+    "1003": "Điền vào chổ tróng (một lựa chọn)",
+    "1004": "Điền vào chổ tróng (nhiều lựa chọn)",
+    "2001": "Hoàn thành câu",
+    "2002": "Hoàn thành câu (Có tiền tố)",
+    "2003": "Điền từ vào câu",
+    "3001": "Chọn vị trí",
+    "4001": "Sắp xếp vị trí",
+    "5001": "Điền vào chổ trống (Đoạn văn)",
+    "6001": "Đọc đoạn văn"
+  },
   "SUC000010001": "Lưu thành công",
   "ERR000010001": "Lưu thất bại"
 }

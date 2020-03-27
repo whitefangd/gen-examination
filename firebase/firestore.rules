@@ -13,6 +13,11 @@ service cloud.firestore {
       }
       allow write: if isAdmin(); 
       allow read: if isAdmin() || isUser();
+      
+      match /questions/{document=**} {
+        allow read: if isAdmin() || isUser();
+        allow write: if isAdmin(); 
+      }
     }
   }
 }

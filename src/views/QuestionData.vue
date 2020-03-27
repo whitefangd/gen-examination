@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
-      <v-row>
+    <v-row>
       <v-col>
-        <v-btn color="primary" :to="{path: '/system/subjects/add'}">
+        <v-btn color="primary" :to="{path: '/system/question-data/add'}">
           <v-icon>mdi-pencil-plus</v-icon>
           {{ $t('question-data.add') }}
         </v-btn>
@@ -17,7 +17,17 @@
           :loading="loadding"
           loading-text
           hide-default-footer
-        ></v-data-table>
+        >
+          <template v-slot:header.subtitle="{ header }">{{ $t(header.text) }}</template>
+          <template v-slot:header.type="{ header }">{{ $t(header.text) }}</template>
+          <template v-slot:header.user="{ header }">{{ $t(header.text) }}</template>
+
+          <template v-slot:item.type="{ item }">{{ $t("question-type." + item.type) }}</template>
+          <template v-slot:item.actions="{ item }">
+            <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
   </v-container>
@@ -27,15 +37,19 @@
 import { Mixins, Component } from "vue-property-decorator";
 import ScreenMixin from "@/mixins/screen";
 import QuestionDataMixin from "@/mixins/logic/question-data";
-import HeaderDatatableType from '../types/HeaderDatatableType';
+import HeaderDatatableType from "../types/HeaderDatatableType";
 
 @Component
-export default class QuestionData extends Mixins(QuestionDataMixin, ScreenMixin) {
+export default class QuestionData extends Mixins(
+  QuestionDataMixin,
+  ScreenMixin
+) {
   private subjectId: string = "";
   private headers: HeaderDatatableType[] = [
-    { text: "questions.subtitle", value: "id", sortable: false },
-    { text: "questions.type", value: "name", sortable: false },
-    { text: "questions.user", value: "disabled", sortable: false }
+    { text: "question-data.subtitle", value: "subtitle", sortable: false },
+    { text: "question-data.type", value: "type", sortable: false },
+    { text: "question-data.user", value: "user", sortable: false },
+    { text: "", value: "actions", sortable: false }
   ];
 
   constructor() {
