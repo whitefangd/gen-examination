@@ -12,8 +12,8 @@
         </v-btn>
       </v-col>
       <v-spacer />
-      <v-col>
-        <v-btn color="error float-right">
+      <v-col v-if="id">
+        <v-btn color="error float-right" @click="deleteSubject">
           <v-icon>mdi-delete</v-icon>
           {{ $t('delete') }}
         </v-btn>
@@ -51,8 +51,8 @@
         </v-btn>
       </v-col>
       <v-spacer />
-      <v-col>
-        <v-btn color="error float-right">
+      <v-col v-if="id">
+        <v-btn color="error float-right" @click="deleteSubject">
           <v-icon>mdi-delete</v-icon>
           {{ $t('delete') }}
         </v-btn>
@@ -92,12 +92,14 @@ export default class SubjectEdit extends Mixins(SubjectsMixin, ScreenMixin) {
     this.id = this.$route.params["id"];
     return new Promise<any>((resolve, reject) => {
       if (self.id) {
-        resolve(self.findSubjectById(self.id).then((value) => {
-          if (value) {
-            self.subject = value;
-          }
-          return value;
-        }));
+        resolve(
+          self.findSubjectById(self.id).then(value => {
+            if (value) {
+              self.subject = value;
+            }
+            return value;
+          })
+        );
       } else {
         resolve();
       }
@@ -125,6 +127,25 @@ export default class SubjectEdit extends Mixins(SubjectsMixin, ScreenMixin) {
       self.pushError({ message: "ERR000010001" });
     }
     self.hideLoading();
+  }
+
+  async deleteSubject() {
+    const self = this;
+    self.showLoading();
+    if (self.id) {
+      await self
+        .delete(self.subject)
+        .then(function() {
+          self.id = "";
+          self.pushSuccess({ message: "SUC000010002" });
+        })
+        .catch(function() {
+          self.pushSuccess({ message: "ERR000010002" });
+        })
+        .finally(() => {
+          self.hideLoading();
+        });
+    }
   }
 }
 </script>
