@@ -8,6 +8,8 @@ import { QUESTION_TYPE } from '@/common/constant';
 export default class QuestionDataMixin extends Vue {
     @Action("bindQuestions") bindQuestions!: (subjectId: string) => Promise<any>;
     @Action("unbindQuestions") unbindQuestions!: () => Promise<any>;
+    @Action('pushError') pushError!: (detail: any) => void
+    @Action('pushSuccess') pushSuccess!: (detail: any) => void
     @Getter("questions") questions!: Array<QuestionsEntity>;
     @Watch("questions") watchQuestions() { }
     @Getter("database") database!: firebase.firestore.Firestore;
@@ -44,4 +46,21 @@ export default class QuestionDataMixin extends Vue {
             return undefined;
         }
     }
+
+    async update(subject: string, question: QuestionsEntity): Promise<boolean> {
+        return await this.database.collection('/subjects/' + subject + "/questions").doc(question.id).update(question).then(onfulfilled => {
+            return true;
+        }).catch(onrejected => {
+            return false;
+        });
+    }
+
+    async create(subject: string, question: QuestionsEntity) {
+        return await this.database.collection('/subjects/' + subject + "/questions").doc(question.id).set(question).then(onfulfilled => {
+            return true;
+        }).catch(onrejected => {
+            return false;
+        });
+    }
+
 }

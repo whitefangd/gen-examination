@@ -24,7 +24,7 @@
 
           <template v-slot:item.type="{ item }">{{ $t("question-type." + item.type) }}</template>
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-icon small class="mr-2" @click="edit(item)">mdi-pencil</v-icon>
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
           </template>
         </v-data-table>
@@ -38,6 +38,7 @@ import { Mixins, Component } from "vue-property-decorator";
 import ScreenMixin from "@/mixins/screen";
 import QuestionDataMixin from "@/mixins/logic/question-data";
 import HeaderDatatableType from "@/types/HeaderDatatableType";
+import QuestionsEntity from "@/types/entities/QuestionsEntity";
 
 @Component
 export default class QuestionData extends Mixins(
@@ -75,9 +76,22 @@ export default class QuestionData extends Mixins(
     self.$router.push({
       name: "QuestionDataAdd",
       params: {
-        "subject": self.subjectId
+        subject: self.subjectId
       }
     });
+  }
+
+  edit(item: QuestionsEntity) {
+    if (item && item.id) {
+      const self = this;
+      self.$router.push({
+        name: "QuestionDataEdit",
+        params: {
+          subject: self.subjectId,
+          id: item.id
+        }
+      });
+    }
   }
 }
 </script>

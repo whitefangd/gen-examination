@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-btn color="success">
+        <v-btn color="success" @click="save">
           <v-icon>mdi-content-save</v-icon>
           {{ $t('save') }}
         </v-btn>
@@ -43,7 +43,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <component v-bind:is="questionComponent"></component>
+        <component v-model="question" v-bind:is="questionComponent"></component>
       </v-col>
     </v-row>
     <v-row>
@@ -74,12 +74,10 @@ import QuestionDataMixin from "@/mixins/logic/question-data";
 import ScreenMixin from "@/mixins/screen";
 import { QUESTION_TYPE } from "@/common/constant";
 import QuestionsEntity from "@/types/entities/QuestionsEntity";
-import Questions from "@/components/questions"
+import Questions from "@/components/questions";
 
 @Component({
-  components: Object.assign({
-    
-  }, Questions)
+  components: Object.assign({}, Questions)
 })
 export default class QuestionDataEdit extends Mixins(
   QuestionDataMixin,
@@ -124,19 +122,39 @@ export default class QuestionDataEdit extends Mixins(
           self.findQuestionById(self.subject, self.id).then(value => {
             if (value) {
               self.question = value;
+              self.type = {
+                value: value.type,
+                text: "question-type." + value.type
+              };
             }
             return value;
           })
         );
       } else {
         self.type = {
-          key: "SURVEY",
           value: QUESTION_TYPE.SURVEY,
           text: "question-type." + QUESTION_TYPE.SURVEY
         };
         resolve();
       }
     });
+  }
+
+  async save() {
+    const self = this;
+    self.showLoading();
+    let flag = false;
+    if (self.id) {
+      flag = await self.update(self.subject, self.question);
+    } else {
+      flag = await self.create(self.subject, self.question);
+    }
+    if (flag) {
+      self.pushSuccess({ message: "SUC000020001" });
+    } else {
+      self.pushError({ message: "ERR000020001" });
+    }
+    self.hideLoading();
   }
 }
 </script>

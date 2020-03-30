@@ -41,7 +41,8 @@
     "type": "Loại câu hỏi",
     "user": "Người tạo",
     "component": {
-      "content": "Câu hỏi"
+      "content": "Câu hỏi",
+      "answer": "Đáp án"
     }
   },
   "dialog-confirm": {
