@@ -33,14 +33,12 @@ export default class QuestionDataMixin extends Vue {
         let questionQuery = await this.database.collection('/subjects/' + subject + "/questions").doc(id).get();
         let questionData = questionQuery.data();
         if (questionQuery.exists && questionData) {
-            let question: QuestionsEntity = {
-                id: questionQuery.id,
-                content: questionData["content"],
-                deleted: questionData["deleted"],
-                subtitle: questionData["subtitle"],
-                type: questionData["type"],
-                user: questionData["user"]
-            }
+            let question: QuestionsEntity = {};
+            Object.keys(questionData).forEach((value: string, index: number, array: string[]) => {
+                if(questionData) {
+                    question[value] = questionData[value];
+                }
+            });
             return question;
         } else {
             return undefined;

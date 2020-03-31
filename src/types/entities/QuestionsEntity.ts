@@ -2,6 +2,7 @@ import Entity from '@/types/entities/Entity';
 import { QUESTION_TYPE } from '@/common/constant';
 
 declare class QuestionsEntity implements Entity, firebase.firestore.DocumentData {
+    [field: string]: any;
     id?: string;
     content?: string;
     deleted?: boolean;

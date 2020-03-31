@@ -150,9 +150,9 @@ export default class QuestionDataEdit extends Mixins(
       flag = await self.create(self.subject, self.question);
     }
     if (flag) {
-      self.pushSuccess({ message: "SUC000020001" });
+      self.pushSuccess({ message: "SUC000010001" });
     } else {
-      self.pushError({ message: "ERR000020001" });
+      self.pushError({ message: "ERR000010001" });
     }
     self.hideLoading();
   }
