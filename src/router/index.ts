@@ -14,6 +14,7 @@ const Subjects = () => import('@/views/Subjects.vue')
 const SubjectEdit = () => import('@/views/SubjectEdit.vue')
 const Question = () => import('@/views/Question.vue')
 const GenExamination = () => import('@/views/GenExamination.vue')
+const GenExaminationEdit = () => import('@/views/GenExaminationEdit.vue')
 const QuestionData = () => import('@/views/QuestionData.vue')
 const QuestionDataEdit = () => import('@/views/QuestionDataEdit.vue')
 
@@ -35,6 +36,11 @@ const ROUTE_TREE: RouterOptions = {
           path: '/gen-examination/:id',
           name: 'GenExamination',
           component: GenExamination
+        },
+        {
+          path: '/gen-examination/:subject/add',
+          name: 'GenExaminationAdd',
+          component: GenExaminationEdit
         },
         {
           path: '/question/:id',

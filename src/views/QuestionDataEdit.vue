@@ -59,7 +59,7 @@
       </v-col>
       <v-spacer />
       <v-col>
-        <v-btn color="error float-right" v-if="id">
+        <v-btn color="error float-right" v-if="id" @click="deleteQuestion">
           <v-icon>mdi-delete</v-icon>
           {{ $t('delete') }}
         </v-btn>

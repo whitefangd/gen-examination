@@ -1,6 +1,13 @@
 <template>
   <v-container fluid>
-      
+    <v-row>
+      <v-col>
+        <v-btn color="primary" @click="add">
+          <v-icon>mdi-pencil-plus</v-icon>
+          {{ $t('gen-exanination.add') }}
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -10,7 +17,10 @@ import ScreenMixin from "@/mixins/screen";
 import GenExaminationMixin from "@/mixins/logic/gen-examination";
 
 @Component
-export default class GenExamination extends Mixins(GenExaminationMixin, ScreenMixin) {
+export default class GenExamination extends Mixins(
+  GenExaminationMixin,
+  ScreenMixin
+) {
   private subjectId: string = "";
 
   constructor() {
@@ -23,8 +33,16 @@ export default class GenExamination extends Mixins(GenExaminationMixin, ScreenMi
     this.subjectId = this.$route.params.id;
   }
 
-  async afterOfCreatedFunc() {
+  async afterOfCreatedFunc() {}
 
+  add() {
+    const self = this;
+    self.$router.push({
+      name: "GenExaminationAdd",
+      params: {
+        subject: self.subjectId
+      }
+    });
   }
 }
 </script>

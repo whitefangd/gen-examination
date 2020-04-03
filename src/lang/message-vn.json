@@ -45,6 +45,9 @@
       "answer": "Đáp án"
     }
   },
+  "gen-exanination": {
+    "add": "Tạo đề thi"
+  },
   "dialog-confirm": {
     "title": "Xác nhận",
     "change-content": "Dữ liệu chưa được lưu. Bạn có muốn hủy ?"

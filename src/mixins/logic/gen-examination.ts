@@ -3,4 +3,5 @@ import { Component } from "vue-property-decorator";
 
 @Component
 export default class GenExaminationMixin extends Vue {
+  
 }
