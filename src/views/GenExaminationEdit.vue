@@ -20,7 +20,36 @@
       </v-col>
     </v-row>
     <v-row>
-      
+      <v-col>
+        <v-container class="pa-0">
+          <v-row>
+            <v-col>
+              <v-hover>
+                <template v-slot="{ hover }">
+                  <v-card outlined :elevation="hover ? 20 : 5">
+                    <v-card-title class="title font-weight-bold">bb</v-card-title>
+                    <v-divider class="primary"></v-divider>
+                    <v-card-text>aa</v-card-text>
+                  </v-card>
+                </template>
+              </v-hover>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-hover>
+                <template v-slot="{ hover }">
+                  <v-card outlined :elevation="hover ? 20 : 5">
+                    <v-card-title class="title font-weight-bold">bb</v-card-title>
+                    <v-divider class="primary"></v-divider>
+                    <v-card-text>aa</v-card-text>
+                  </v-card>
+                </template>
+              </v-hover>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-col>
     </v-row>
     <v-row>
       <v-col>
@@ -48,8 +77,11 @@
 import { Mixins, Component } from "vue-property-decorator";
 import ScreenMixin from "@/mixins/screen";
 import GenExaminationMixin from "@/mixins/logic/gen-examination";
+import Examinations from "@/components/examinations";
 
-@Component
+@Component({
+  components: Object.assign({}, Examinations)
+})
 export default class GenExaminationEdit extends Mixins(
   GenExaminationMixin,
   ScreenMixin
