@@ -3,6 +3,7 @@ import { Component, Watch } from "vue-property-decorator";
 import { Getter, Action } from 'vuex-class';
 import QuestionsEntity from '@/types/entities/QuestionsEntity';
 import { QUESTION_TYPE } from '@/common/constant';
+import firebase from "firebase/app";
 
 @Component
 export default class QuestionDataMixin extends Vue {
@@ -10,6 +11,7 @@ export default class QuestionDataMixin extends Vue {
     @Action("unbindQuestions") unbindQuestions!: () => Promise<any>;
     @Action('pushError') pushError!: (detail: any) => void
     @Action('pushSuccess') pushSuccess!: (detail: any) => void
+    @Getter('firebase') firebase!: typeof firebase
     @Getter("questions") questions!: Array<QuestionsEntity>;
     @Watch("questions") watchQuestions() { }
     @Getter("database") database!: firebase.firestore.Firestore;
@@ -35,10 +37,11 @@ export default class QuestionDataMixin extends Vue {
         if (questionQuery.exists && questionData) {
             let question: QuestionsEntity = {};
             Object.keys(questionData).forEach((value: string, index: number, array: string[]) => {
-                if(questionData) {
+                if (questionData) {
                     question[value] = questionData[value];
                 }
             });
+            question.id = questionQuery.id;
             return question;
         } else {
             return undefined;
@@ -46,19 +49,34 @@ export default class QuestionDataMixin extends Vue {
     }
 
     async update(subject: string, question: QuestionsEntity): Promise<boolean> {
-        return await this.database.collection('/subjects/' + subject + "/questions").doc(question.id).update(question).then(onfulfilled => {
-            return true;
-        }).catch(onrejected => {
-            return false;
+        const self = this;
+        return await new Promise<boolean>((resolve, reject) => {
+            let currentUser = self.firebase.auth().currentUser;
+            if (currentUser && currentUser.email) {
+                question.user = currentUser.email;
+                resolve(self.database.collection('/subjects/' + subject + "/questions").doc(question.id).update(question).then(onfulfilled => {
+                    return true;
+                }).catch(onrejected => {
+                    return false;
+                }));
+            } else {
+                resolve(false);
+            }
         });
+
     }
 
     async create(subject: string, question: QuestionsEntity) {
-        return await this.database.collection('/subjects/' + subject + "/questions").doc(question.id).set(question).then(onfulfilled => {
+        return await this.database.collection('/subjects/' + subject + "/questions").add(question).then(onfulfilled => {
             return true;
         }).catch(onrejected => {
             return false;
         });
     }
 
+    delete(subject: string, question: QuestionsEntity) {
+        return this.database.collection('/subjects/' + subject + "/questions")
+            .doc(question.id)
+            .delete();
+    }
 }

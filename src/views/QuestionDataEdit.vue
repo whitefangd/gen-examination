@@ -6,7 +6,7 @@
           <v-icon>mdi-content-save</v-icon>
           {{ $t('save') }}
         </v-btn>
-        <v-btn color="secondary">
+        <v-btn color="secondary" @click="cancel">
           <v-icon>mdi-cancel</v-icon>
           {{ $t('cancel') }}
         </v-btn>
@@ -30,7 +30,7 @@
       </v-col>
       <v-spacer />
       <v-col>
-        <v-btn color="error float-right">
+        <v-btn color="error float-right" v-if="id" @click="deleteQuestion">
           <v-icon>mdi-delete</v-icon>
           {{ $t('delete') }}
         </v-btn>
@@ -48,18 +48,18 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn color="success">
+        <v-btn color="success" @click="save">
           <v-icon>mdi-content-save</v-icon>
           {{ $t('save') }}
         </v-btn>
-        <v-btn color="secondary">
+        <v-btn color="secondary" @click="cancel">
           <v-icon>mdi-cancel</v-icon>
           {{ $t('cancel') }}
         </v-btn>
       </v-col>
       <v-spacer />
       <v-col>
-        <v-btn color="error float-right">
+        <v-btn color="error float-right" v-if="id">
           <v-icon>mdi-delete</v-icon>
           {{ $t('delete') }}
         </v-btn>
@@ -84,6 +84,7 @@ export default class QuestionDataEdit extends Mixins(
   ScreenMixin
 ) {
   private id: string = "";
+  private copyId: string = "";
   private question: QuestionsEntity = {
     id: "",
     content: "",
@@ -116,10 +117,17 @@ export default class QuestionDataEdit extends Mixins(
     const self = this;
     this.subject = this.$route.params["subject"];
     this.id = this.$route.params["id"];
+    this.copyId = this.$route.params["copyId"];
     return new Promise<any>((resolve, reject) => {
+      let idItem = "";
       if (self.id) {
+        idItem = self.id;
+      } else if (self.copyId) {
+        idItem = self.copyId;
+      }
+      if (idItem) {
         resolve(
-          self.findQuestionById(self.subject, self.id).then(value => {
+          self.findQuestionById(self.subject, idItem).then(value => {
             if (value) {
               self.question = value;
               self.type = {
@@ -144,6 +152,12 @@ export default class QuestionDataEdit extends Mixins(
     const self = this;
     self.showLoading();
     let flag = false;
+    if(self.question.content) {
+      self.question.subtitle = self.question.content.substring(0, 25);
+      if(self.question.content.length > 25) {
+        self.question.subtitle += "...";
+      }
+    }
     if (self.id) {
       flag = await self.update(self.subject, self.question);
     } else {
@@ -155,6 +169,35 @@ export default class QuestionDataEdit extends Mixins(
       self.pushError({ message: "ERR000010001" });
     }
     self.hideLoading();
+  }
+
+  cancel() {
+    const self = this;
+    self.$router.replace({
+      name: "QuestionData",
+      params: {
+        id: self.subject
+      }
+    });
+  }
+
+  async deleteQuestion() {
+    const self = this;
+    self.showLoading();
+    if (self.id) {
+      await self
+        .delete(self.subject, self.question)
+        .then(function() {
+          self.id = "";
+          self.pushSuccess({ message: "SUC000010002" });
+        })
+        .catch(function() {
+          self.pushSuccess({ message: "ERR000010002" });
+        })
+        .finally(() => {
+          self.hideLoading();
+        });
+    }
   }
 }
 </script>

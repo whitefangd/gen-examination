@@ -50,6 +50,11 @@ const ROUTE_TREE: RouterOptions = {
           path: '/question/:subject/edit/:id',
           name: 'QuestionDataEdit',
           component: QuestionDataEdit
+        },
+        {
+          path: '/question/:subject/copy/:copyId',
+          name: 'QuestionDataCopy',
+          component: QuestionDataEdit
         }
       ]
     },

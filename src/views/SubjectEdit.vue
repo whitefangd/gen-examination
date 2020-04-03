@@ -117,9 +117,9 @@ export default class SubjectEdit extends Mixins(SubjectsMixin, ScreenMixin) {
     self.showLoading();
     let flag = false;
     if (self.id) {
-      flag = await self.update(this.subject);
+      flag = await self.update(self.subject);
     } else {
-      flag = await self.create(this.subject);
+      flag = await self.create(self.subject);
     }
     if (flag) {
       self.pushSuccess({ message: "SUC000010001" });

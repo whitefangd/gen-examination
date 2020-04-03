@@ -25,6 +25,7 @@
           <template v-slot:item.type="{ item }">{{ $t("question-type." + item.type) }}</template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="edit(item)">mdi-pencil</v-icon>
+            <v-icon small class="mr-2" @click="copy(item)">mdi-content-copy</v-icon>
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
           </template>
         </v-data-table>
@@ -89,6 +90,19 @@ export default class QuestionData extends Mixins(
         params: {
           subject: self.subjectId,
           id: item.id
+        }
+      });
+    }
+  }
+
+  copy(item: QuestionsEntity) {
+    if (item && item.id) {
+      const self = this;
+      self.$router.push({
+        name: "QuestionDataCopy",
+        params: {
+          subject: self.subjectId,
+          copyId: item.id
         }
       });
     }
